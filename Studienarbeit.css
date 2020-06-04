@@ -1,0 +1,57 @@
+#Konfiguration{
+    text-align: center;
+    border: solid 1px black;
+    
+    margin:auto;
+    border-width:10px;
+    padding:20px;
+    border-radius: 10px;
+    width:50%;
+    margin-top:25px;
+    
+}
+
+#Spielpaare{
+    border:solid 1px black;
+    float:initial;
+    width: 30%;
+    margin-top:300px;
+    margin-left:50px;
+    padding:50px;
+    border-radius:50px;
+}
+
+#rokoko{
+    padding:0px;
+    margin:0px;
+    float:left;
+    transform:scaleX(-1);
+    
+}
+
+
+  
+body{
+    font-family: Arial Black;
+    
+   
+    display: block;
+    position: relative;
+    
+
+}
+
+body::after {
+    content: "";
+    background: url("Images/Hintergrund.jpg");
+    opacity: 0.25;
+    top: 0;
+    left: 0;
+    bottom: -500px;
+    right: 0;
+    position: absolute;
+    z-index: -1;   
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    background-position-x:50%;
+  }
