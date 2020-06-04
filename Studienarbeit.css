@@ -1,4 +1,6 @@
-#Konfiguration{
+
+  
+  #Konfiguration{
     text-align: center;
     border: solid 1px black;
     
@@ -7,18 +9,24 @@
     padding:20px;
     border-radius: 10px;
     width:50%;
-    margin-top:25px;
+   
+    position:relative;
+    top:50px;
+    
+    
     
 }
 
 #Spielpaare{
     border:solid 1px black;
     float:initial;
-    width: 30%;
-    margin-top:300px;
-    margin-left:50px;
+    width: 20%;
+    margin-top:270px;
+    margin-left:220px;
     padding:50px;
     border-radius:50px;
+    position:relative;
+    top:50px;
 }
 
 #rokoko{
@@ -31,27 +39,98 @@
 
 
   
-body{
+
+
+  #pairs{
+      width:100px;
+  }
+
+  #Spieleranzahl{
+      float:right;
+      text-align:center;
+      border:solid 1px black;
+      width:40%;
+      border-radius: 50px;
+      padding:50px;
+      position:relative;
+      top:-210px;
+      margin-right:220px;
+      margin-top:77px;
+  }
+
+  #startknopf{
+    text-align: center;
+    border: solid 1px black;
+    
+    
+    border-width:10px;
+    padding:10px;
+    border-radius: 50px;
+    width:5%;
+    margin:auto;
+    margin-top:410px;
+    position:relative;
+    top:-100px;
+    right:10px;
+  }
+  
+ body{
     font-family: Arial Black;
     
    
-    display: block;
-    position: relative;
-    
+   
 
 }
 
-body::after {
-    content: "";
-    background: url("Images/Hintergrund.jpg");
-    opacity: 0.25;
-    top: 0;
-    left: 0;
-    bottom: -500px;
-    right: 0;
-    position: absolute;
-    z-index: -1;   
-    background-repeat:no-repeat;
-    background-size:100% 100%;
-    background-position-x:50%;
-  }
+.spieler{
+    display:inline-block;
+    width:10%;
+    margin:20px;
+    border:solid 1px black;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+#Playernamediv{
+    width:60%;
+    
+    margin:auto;
+    margin-top:100px;
+    float:right;
+    position:relative;
+    top:-250px;
+    right:350px;
+}
+#Player1{
+    visibility:visible;
+
+    
+}
+
+#Player2{
+    visibility:hidden;
+
+}
+
+#Player3{
+    visibility:hidden;
+
+}
+
+#Player4{
+    visibility:hidden;
+    
+  
+}
+
+.player{
+   
+   
+    display:inline-block;
+    width:20%;
+    margin:20px;
+    
+    
+}
+
+

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <link href="Studienarbeit.css" rel="stylesheet" type="text/css">
         <script src="Studienarbeit.js"></script>
         
@@ -9,15 +10,41 @@
         </noscript>
     </head>
     <body>
-        <img id="rokoko" src="Images/muster.jpg" alt="Rokokokranz" width="300" height="300">
+        
         <div id="Konfiguration">
-            Spielkonfiguration
+            Memory-Spiel
         </div>
         <div id="Spielpaare">
-            Spielpaare: 
-            <form id="spielpaarform">
-                
-            </form>
+           
+                <input type="range" min="5" max="25" class="slider" id="Paarslider" value="15" oninput="setPaar()">
+                <p>Kartenpaare: <span id="output">15</span></p>
+              
+        </div>
+
+        <div id="Spieleranzahl" name="Spieleranzahl">
+            Anzahl der Spieler:<br>
+            <div class="spieler" onclick="player1function()">
+                1
+            </div>
+            <div class="spieler" onclick="player2function()">
+                2
+            </div>
+            <div class="spieler" onclick="player3function()">
+                3
+            </div>
+            <div class="spieler" onclick="player4function()">
+                4
+            </div>
+
+        </div>
+        <div id="Playernamediv">
+<div id="Player1" class="player">Player 1 Name</div>
+<div id="Player2" class="player">Player 2 Name</div>
+<div id="Player3" class="player">Player 3 Name</div>
+<div id="Player4" class="player">Player 4 Name</div>
+    </div>
+        <div id="startknopf">
+            Start
         </div>
     </body>
 </html>
