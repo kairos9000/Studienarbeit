@@ -1,136 +1,140 @@
-
-  
-  #Konfiguration{
-    text-align: center;
+#Rahmen {
     border: solid 1px black;
-    
-    margin:auto;
-    border-width:10px;
-    padding:20px;
-    border-radius: 10px;
-    width:50%;
-   
-    position:relative;
-    top:50px;
-    
-    
-    
-}
-
-#Spielpaare{
-    border:solid 1px black;
-    float:initial;
-    width: 20%;
-    margin-top:270px;
-    margin-left:220px;
-    padding:50px;
-    border-radius:50px;
-    position:relative;
-    top:50px;
-}
-
-#rokoko{
-    padding:0px;
-    margin:0px;
-    float:left;
-    transform:scaleX(-1);
-    
-}
-
-
-  
-
-
-  #pairs{
-      width:100px;
-  }
-
-  #Spieleranzahl{
-      float:right;
-      text-align:center;
-      border:solid 1px black;
-      width:40%;
-      border-radius: 50px;
-      padding:50px;
-      position:relative;
-      top:-210px;
-      margin-right:220px;
-      margin-top:77px;
-  }
-
-  #startknopf{
-    text-align: center;
-    border: solid 1px black;
-    
-    
-    border-width:10px;
-    padding:10px;
     border-radius: 50px;
-    width:5%;
-    margin:auto;
-    margin-top:410px;
-    position:relative;
-    top:-100px;
-    right:10px;
-  }
-  
- body{
-    font-family: Arial Black;
-    
-   
-   
-
+    width: 50%;
+    margin: auto;
+    position: relative;
+    top: 100px;
+    background-color: #ffb74d;
+}
+#Konfiguration {
+    text-align: center;
+    border: solid 1px black;
+    background-color: #ffc570;
+    margin: auto;
+    margin-top: 20px;
+    border-width: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
 }
 
-.spieler{
-    display:inline-block;
-    width:10%;
-    margin:20px;
-    border:solid 1px black;
-    border-radius:20px;
-    cursor:pointer;
+#Spielpaare {
+    float: initial;
+    width: 20%;
+    padding: 50px;
+    border-radius: 50px;
+    margin-left: 20px;
+    background-color: #35919d;
+    position: relative;
+    top: 100px;
 }
 
-#Playernamediv{
-    width:60%;
-    
-    margin:auto;
-    margin-top:100px;
-    float:right;
-    position:relative;
-    top:-250px;
-    right:350px;
-}
-#Player1{
-    visibility:visible;
+#Spieleranzahl {
+    float: right;
+    text-align: center;
 
-    
+    background-color: #35919d;
+    width: 40%;
+    border-radius: 50px;
+    padding: 50px;
+    margin-right: 20px;
+    position: relative;
+    bottom: 90px;
 }
 
-#Player2{
-    visibility:hidden;
-
+#Paarslider {
+    cursor: pointer;
 }
 
-#Player3{
-    visibility:hidden;
-
+#startknopf {
+    text-align: center;
+    border: solid 1px black;
+    border-width: 10px;
+    padding: 10px;
+    border-radius: 50px;
+    width: 5%;
+    margin: auto;
+    cursor: pointer;
+    margin-bottom: 20px;
+    background-color: #b28035;
+    position: relative;
+    bottom: 20px;
 }
 
-#Player4{
-    visibility:hidden;
-    
-  
+body {
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    background-color: #64b5f6;
 }
 
-.player{
-   
-   
-    display:inline-block;
-    width:20%;
-    margin:20px;
-    
-    
+.spieler {
+    display: inline-block;
+    width: 10%;
+    margin: 20px;
+    border: solid 1px black;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
+#Playernamediv {
+    width: 50%;
 
+    margin-top: 130px;
+    margin-right: 20px;
+    margin-bottom: 50px;
+    position: relative;
+    left: 450px;
+}
+
+#select1 {
+    background-color: #81c784;
+}
+
+#select2 {
+    background-color: #ba68c8;
+}
+
+#select3 {
+    background-color: #7986cb;
+}
+
+#select4 {
+    background-color: #4db6ac;
+}
+
+.player {
+    margin: 20px;
+    transition-property: opacity, transform;
+    transition-duration: 0.4s;
+    transform-origin: 50% 0%;
+}
+
+.player.hidden {
+    opacity: 0;
+    transform: scale(0.5) translateY(-100%);
+}
+
+.textfeld {
+    position: relative;
+    bottom: 2px;
+    left: 10px;
+    border: solid 2px black;
+    width: 40%;
+}
+
+#text1 {
+    background-color: #81c784;
+}
+
+#text2 {
+    background-color: #ba68c8;
+}
+
+#text3 {
+    background-color: #7986cb;
+}
+
+#text4 {
+    background-color: #4db6ac;
+}

@@ -1,50 +1,97 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <link href="Studienarbeit.css" rel="stylesheet" type="text/css">
+        <meta charset="UTF-8" />
+        <link href="Studienarbeit.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div id="Rahmen">
+            <div id="Konfiguration">
+                Memory-Spiel
+            </div>
+            <div id="Spielpaare">
+                <input
+                    type="range"
+                    min="5"
+                    max="25"
+                    class="slider"
+                    id="Paarslider"
+                    value="15"
+                    oninput="setPaar()"
+                />
+                <p>Kartenpaare: <span id="output">15</span></p>
+            </div>
+
+            <div id="Spieleranzahl" name="Spieleranzahl">
+                Anzahl der Spieler:<br />
+                <div
+                    id="select1"
+                    class="spieler"
+                    onclick="setPlayersVisible(1)"
+                >
+                    1
+                </div>
+                <div
+                    id="select2"
+                    class="spieler"
+                    onclick="setPlayersVisible(2)"
+                >
+                    2
+                </div>
+                <div
+                    id="select3"
+                    class="spieler"
+                    onclick="setPlayersVisible(3)"
+                >
+                    3
+                </div>
+                <div
+                    id="select4"
+                    class="spieler"
+                    onclick="setPlayersVisible(4)"
+                >
+                    4
+                </div>
+            </div>
+            <div id="Playernamediv">
+                <div id="Player1" class="player">
+                    Player 1 Name:<input
+                        id="text1"
+                        class="textfeld"
+                        type="text"
+                    />
+                </div>
+                <div id="Player2" class="player">
+                    Player 2 Name:<input
+                        id="text2"
+                        class="textfeld"
+                        type="text"
+                    />
+                </div>
+                <div id="Player3" class="player">
+                    Player 3 Name:<input
+                        id="text3"
+                        class="textfeld"
+                        type="text"
+                    />
+                </div>
+                <div id="Player4" class="player">
+                    Player 4 Name:<input
+                        id="text4"
+                        class="textfeld"
+                        type="text"
+                    />
+                </div>
+            </div>
+            <div id="startknopf" onclick="startfunktion()">
+                Start
+            </div>
+        </div>
+
         <script src="Studienarbeit.js"></script>
-        
+
         <noscript>
             Sorry, your Browser does not support JavaScript!
         </noscript>
-    </head>
-    <body>
-        
-        <div id="Konfiguration">
-            Memory-Spiel
-        </div>
-        <div id="Spielpaare">
-           
-                <input type="range" min="5" max="25" class="slider" id="Paarslider" value="15" oninput="setPaar()">
-                <p>Kartenpaare: <span id="output">15</span></p>
-              
-        </div>
-
-        <div id="Spieleranzahl" name="Spieleranzahl">
-            Anzahl der Spieler:<br>
-            <div class="spieler" onclick="player1function()">
-                1
-            </div>
-            <div class="spieler" onclick="player2function()">
-                2
-            </div>
-            <div class="spieler" onclick="player3function()">
-                3
-            </div>
-            <div class="spieler" onclick="player4function()">
-                4
-            </div>
-
-        </div>
-        <div id="Playernamediv">
-<div id="Player1" class="player">Player 1 Name</div>
-<div id="Player2" class="player">Player 2 Name</div>
-<div id="Player3" class="player">Player 3 Name</div>
-<div id="Player4" class="player">Player 4 Name</div>
-    </div>
-        <div id="startknopf">
-            Start
-        </div>
     </body>
 </html>
