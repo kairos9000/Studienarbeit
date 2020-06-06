@@ -1,3 +1,5 @@
+setPlayerFunctions(1);
+
 function setPlayerFunctions(amount) {
     setPlayerBoxesVisible(amount);
     setPlayersVisible(amount);
@@ -29,52 +31,32 @@ function setPlayerBoxesVisible(amount) {
     setPlayerBoxVisible(amount >= 4, document.getElementById("playerbox4"));
 }
 
-function setPlayerBoxVisible(visible, nametag) {
+function setPlayerBoxVisible(visible, playerbox) {
     if (visible) {
-        nametag.classList.remove("hidden");
+        playerbox.classList.remove("hidden");
     } else {
-        nametag.classList.add("hidden");
+        playerbox.classList.add("hidden");
     }
 }
 
 function startfunction() {
     document.getElementById("rahmen").classList.add("schieben");
     document.getElementById("Hauptspiel").classList.add("einfliegen");
+    setTextNode("text1", "Spieler 1", "playerbox1");
+    setTextNode("text2", "Spieler 2", "playerbox2");
+    setTextNode("text3", "Spieler 3", "playerbox3");
+    setTextNode("text4", "Spieler 4", "playerbox4");
+}
+
+function setTextNode(textValue, spieler, playerbox) {
     let textnode1 = document.createTextNode(
-        document.getElementById("text1").value
+        document.getElementById(textValue).value
     );
     if (textnode1.nodeValue.trim().length === 0) {
-        let ersatznode1 = document.createTextNode("Spieler 1");
-        document.getElementById("playerbox1").appendChild(ersatznode1);
+        let ersatznode1 = document.createTextNode(spieler);
+        document.getElementById(playerbox).appendChild(ersatznode1);
     } else {
-        document.getElementById("playerbox1").appendChild(textnode1);
-    }
-    let textnode2 = document.createTextNode(
-        document.getElementById("text2").value
-    );
-    if (textnode2.nodeValue.trim().length === 0) {
-        let ersatznode2 = document.createTextNode("Spieler 2");
-        document.getElementById("playerbox2").appendChild(ersatznode2);
-    } else {
-        document.getElementById("playerbox2").appendChild(textnode2);
-    }
-    let textnode3 = document.createTextNode(
-        document.getElementById("text3").value
-    );
-    if (textnode3.nodeValue.trim().length === 0) {
-        let ersatznode3 = document.createTextNode("Spieler 3");
-        document.getElementById("playerbox3").appendChild(ersatznode3);
-    } else {
-        document.getElementById("playerbox3").appendChild(textnode3);
-    }
-    let textnode4 = document.createTextNode(
-        document.getElementById("text4").value
-    );
-    if (textnode4.nodeValue.trim().length === 0) {
-        let ersatznode4 = document.createTextNode("Spieler 4");
-        document.getElementById("playerbox4").appendChild(ersatznode4);
-    } else {
-        document.getElementById("playerbox4").appendChild(textnode4);
+        document.getElementById(playerbox).appendChild(textnode1);
     }
 }
 
