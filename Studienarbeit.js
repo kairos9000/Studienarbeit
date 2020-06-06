@@ -19,3 +19,13 @@ function setPlayerVisible(visible, element) {
         element.classList.add("hidden");
     }
 }
+
+function startfunktion() {
+    document.getElementById("rahmen").classList.add("schieben");
+}
+
+function resetfunction() {
+    setPlayersVisible(1);
+    document.getElementById("Paarslider").value = 15;
+    document.getElementById("output").innerHTML = 15;
+}

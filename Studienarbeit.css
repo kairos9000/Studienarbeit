@@ -1,4 +1,4 @@
-#Rahmen {
+.rahmen {
     border: solid 1px black;
     border-radius: 50px;
     width: 50%;
@@ -6,7 +6,16 @@
     position: relative;
     top: 100px;
     background-color: #ffb74d;
+    transition-property: transform;
+    transition-duration: 1s;
+    transform-origin: 50% 0%;
 }
+
+.rahmen.schieben {
+    transform: scale(0.5);
+    transform: translateX(-300%);
+}
+
 #Konfiguration {
     text-align: center;
     border: solid 1px black;
@@ -49,8 +58,7 @@
 
 #startknopf {
     text-align: center;
-    border: solid 1px black;
-    border-width: 10px;
+    border: solid 10px black;
     padding: 10px;
     border-radius: 50px;
     width: 5%;
@@ -82,7 +90,7 @@ body {
 
     margin-top: 130px;
     margin-right: 20px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     position: relative;
     left: 450px;
 }
@@ -137,4 +145,18 @@ body {
 
 #text4 {
     background-color: #4db6ac;
+}
+
+#resetknopf {
+    text-align: center;
+    border: solid 10px black;
+    width: 10%;
+    border-radius: 50px;
+    cursor: pointer;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #35919d;
+    position: relative;
+    left: 150px;
+    top: 45px;
 }
