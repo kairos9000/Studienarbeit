@@ -16,6 +16,25 @@
     transform: translateX(-300%);
 }
 
+.Hauptspiel {
+    border: solid 1px black;
+    border-radius: 50px;
+    width: 50%;
+    margin: auto;
+    position: relative;
+    bottom: 700px;
+    background-color: #ffb74d;
+    transition-property: transform;
+    transition-duration: 1s;
+    transform-origin: 50% 0%;
+    transform: translateX(+300%);
+    height: 800px;
+}
+
+.Hauptspiel.einfliegen {
+    transform: scale(1);
+}
+
 #Konfiguration {
     text-align: center;
     border: solid 1px black;
@@ -64,7 +83,7 @@
     width: 5%;
     margin: auto;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     background-color: #b28035;
     position: relative;
     bottom: 20px;
@@ -74,6 +93,7 @@ body {
     font-family: Arial, sans-serif;
     font-size: 20px;
     background-color: #64b5f6;
+    overflow: hidden;
 }
 
 .spieler {
@@ -159,4 +179,18 @@ body {
     position: relative;
     left: 150px;
     top: 45px;
+}
+
+#randomknopf {
+    text-align: center;
+    border: solid 10px black;
+    width: 12%;
+    border-radius: 50px;
+    cursor: pointer;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #35919d;
+    position: relative;
+    left: 680px;
+    top: -85px;
 }
