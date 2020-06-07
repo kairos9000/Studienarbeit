@@ -1,11 +1,75 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    background-color: #57a;
+    overflow: hidden;
+}
+
+button {
+    margin: 0 10px;
+    padding: 10px 16px;
+    border: solid 2px black;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.4s;
+    font-size: 1em;
+}
+
+input {
+    margin-left: 10px;
+    border: solid black 2px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.4s;
+}
+
+input:focus {
+    border-color: blue;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+#resetknopf,
+#randomknopf {
+    background-color: #35919d;
+}
+
+#resetknopf:hover,
+#randomknopf:hover {
+    background-color: #2baabb;
+}
+
+#startknopf {
+    background-color: #b28035;
+}
+
+#startknopf:hover {
+    background-color: #da5;
+}
+
+#spielpaare_und_anzahl {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 #rahmen {
+    position: absolute;
+    left: 0;
+    right: 0;
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
-    padding: 20px 20px;
+    padding: 20px;
     border-radius: 20px;
-    width: 50%;
+    width: 800px;
+    max-width: 90%;
     margin: 50px auto;
     background-color: #ccc;
-    transition-property: transform scale;
+    transition-property: transform;
     transition-duration: 1s;
     transform-origin: 50% 0%;
 }
@@ -15,20 +79,24 @@
     transform: translateX(-300%);
 }
 
+#menubuttons {
+    margin-top: 30px;
+    text-align: center;
+}
+
 #Hauptspiel {
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
-    padding: 20px 20px;
+    padding: 20px;
     border-radius: 20px;
-    width: 50%;
-    height: 800px;
-    margin: auto;
-    position: relative;
-    top: -825px;
+    width: 800px;
+    max-width: 90%;
+    margin: 20px auto;
     background-color: #ccc;
-    transition-property: transform scale;
+    transition-property: transform;
     transition-duration: 1s;
     transform-origin: 50% 0%;
     transform: translateX(+400%);
+    position: relative;
 }
 
 #Hauptspiel.einfliegen {
@@ -39,7 +107,7 @@
     text-align: center;
     border: solid 1px black;
     background-color: #ffc570;
-    margin: auto;
+    margin: 0 auto;
     margin-top: 20px;
     border-width: 4px;
     padding: 20px;
@@ -49,82 +117,26 @@
 
 #Spielpaare {
     box-shadow: 4px 8px 8px rgba(0, 0, 0, 0.3);
-    float: initial;
-    width: 20%;
+    margin: 20px;
     padding: 50px;
     border-radius: 10px;
-    margin-left: 20px;
     background-color: #35919d;
-    position: relative;
-    top: 100px;
 }
 
 #Spieleranzahl {
     box-shadow: 4px 8px 8px rgba(0, 0, 0, 0.3);
-    float: right;
     text-align: center;
     background-color: #35919d;
-    width: 40%;
     border-radius: 10px;
     padding: 50px;
-    margin-right: 20px;
-    position: relative;
-    bottom: 90px;
 }
 
 #Paarslider {
     cursor: pointer;
 }
 
-#startknopf {
-    text-align: center;
-    border: solid 3px black;
-    padding: 10px;
-    border-radius: 50px;
-    width: 5%;
-    margin: auto;
-    cursor: pointer;
-    margin-bottom: 0px;
-    background-color: #b28035;
-    position: relative;
-    bottom: 20px;
-    transition: all 0.4s;
-}
-
-#startknopf:hover {
-    background-color: #da5;
-    transform: scale(1.1);
-}
-
-body {
-    font-family: Arial, sans-serif;
-    font-size: 20px;
-    background-color: #57a;
-    overflow: hidden;
-}
-
-.spieler {
-    display: inline-block;
-    width: 10%;
-    margin: 20px;
-    border: solid 1px black;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.4s;
-}
-
-.spieler:hover {
-    transform: scale(1.1);
-}
-
 #Playernamediv {
-    width: 50%;
-
-    margin-top: 130px;
-    margin-right: 20px;
-    margin-bottom: 30px;
-    position: relative;
-    left: 450px;
+    text-align: center;
 }
 
 #select1 {
@@ -150,17 +162,13 @@ body {
     transform-origin: 50% 0%;
 }
 
+#Hauptspiel .player {
+    position: absolute;
+}
+
 .player.hidden {
     opacity: 0;
     transform: scale(0.5) translateY(-100%);
-}
-
-.textfeld {
-    position: relative;
-    bottom: 2px;
-    left: 10px;
-    border: solid 2px black;
-    width: 40%;
 }
 
 #text1 {
@@ -181,46 +189,24 @@ body {
 
 #playerbox1 {
     background-color: #81c784;
+    left: 0;
+    top: 0;
 }
 
 #playerbox2 {
     background-color: #ba68c8;
+    right: 0;
+    top: 0;
 }
 
 #playerbox3 {
     background-color: #7986cb;
+    left: 0;
+    bottom: 0;
 }
 
 #playerbox4 {
     background-color: #4db6ac;
-}
-
-#resetknopf,
-#randomknopf {
-    text-align: center;
-    border: solid 3px black;
-    border-radius: 50px;
-    cursor: pointer;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: #35919d;
-    position: relative;
-    transition: all 0.4s;
-}
-
-#resetknopf {
-    width: 10%;
-    left: 150px;
-    top: 30px;
-}
-
-#resetknopf:hover,
-#randomknopf:hover {
-    transform: scale(1.1);
-}
-
-#randomknopf {
-    width: 12%;
-    left: 680px;
-    top: -70px;
+    right: 0;
+    bottom: 0;
 }
