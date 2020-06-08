@@ -71,3 +71,13 @@ function resetfunction() {
     document.getElementById("text3").value = "";
     document.getElementById("text4").value = "";
 }
+
+cards = document.querySelectorAll(".memory-card");
+
+function flipCard() {
+    this.classList.toggle("flip");
+}
+
+for (let i = 0; i < cards.length; i++) {
+    cards[i].addEventListener("click", flipCard);
+}
