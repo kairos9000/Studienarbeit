@@ -2,7 +2,8 @@ body {
     font-family: Arial, sans-serif;
     font-size: 20px;
     background-color: #57a;
-    overflow-x: hidden;
+
+    display: flex;
 }
 
 button {
@@ -70,14 +71,14 @@ button:hover {
     max-width: 90%;
     margin: 50px auto;
     background-color: #ccc;
-    transition-property: transform;
+    transition-property: transform scale opacity;
     transition-duration: 1s;
     transform-origin: 50% 0%;
 }
 
 #rahmen.schieben {
-    transform: scale(0.5);
-    transform: translateX(-300%);
+    opacity: 0;
+    transform: scale(0.5) translateX(-100%);
 }
 
 #menubuttons {
@@ -91,16 +92,19 @@ button:hover {
     border-radius: 20px;
     width: 800px;
     max-width: 90%;
-    margin: 20px auto;
+    margin: 50px auto;
     background-color: #ccc;
-    transition-property: transform;
-    transition-duration: 1s;
+    transition-property: transform scale opacity;
+    transform: scale(0.5);
+    opacity: 0;
+    transition-duration: 1.5s;
     transform-origin: 50% 0%;
-    transform: translateX(+400%);
+
     position: relative;
 }
 
 #Hauptspiel.einfliegen {
+    opacity: 1;
     transform: scale(1);
 }
 
@@ -218,26 +222,21 @@ button:hover {
     box-sizing: border-box;
 }
 
-body {
-    display: flex;
-}
-
 .memory-game {
-    width: 640px;
-    height: 640px;
-    margin: 0 auto;
+    margin: 70px 70px;
     display: flex;
     flex-wrap: wrap;
+    perspective: 1000px;
 }
-
 .memory-card {
-    width: 25%;
-    height: 33.333%;
-    margin: 5px;
+    cursor: pointer;
+    outline: none;
+    margin: 10px 10px;
     position: relative;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
     transform: scale(1);
     transition: transform 0.5s;
+    transform-style: preserve-3d;
 }
 
 .memory-card:active {
@@ -245,23 +244,25 @@ body {
     transition: transform 0.2s;
 }
 
+.memory-card:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+}
+
 .memory-card.flip {
-    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
 
 .front-face,
 .back-face {
-    width: 100%;
-    height: 100%;
     padding: 20px;
-    position: absolute;
+
     border-radius: 5px;
     background: #1c7ccc;
     backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
 }
 
 .front-face {
+    position: absolute;
     transform: rotateY(180deg);
 }
