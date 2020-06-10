@@ -52,14 +52,14 @@ function startfunction() {
 }
 
 function setTextNode(textValue, spieler, playerbox) {
-    let textnode1 = document.createTextNode(
+    let textnode = document.createTextNode(
         document.getElementById(textValue).value
     );
-    if (textnode1.nodeValue.trim().length === 0) {
-        let ersatznode1 = document.createTextNode(spieler);
-        document.getElementById(playerbox).appendChild(ersatznode1);
+    if (textnode.nodeValue.trim().length === 0) {
+        let ersatznode = document.createTextNode(spieler);
+        document.getElementById(playerbox).appendChild(ersatznode);
     } else {
-        document.getElementById(playerbox).appendChild(textnode1);
+        document.getElementById(playerbox).appendChild(textnode);
     }
 }
 
@@ -161,4 +161,11 @@ function spielresetfunction() {
     resetfunction();
     document.getElementById("rahmen").classList.remove("schieben");
     document.getElementById("Hauptspiel").classList.remove("einfliegen");
+    document.getElementById("playerbox1").innerHTML = "Player 1: <br>";
+    document.getElementById("playerbox2").innerHTML = "Player 1: <br>";
+    document.getElementById("playerbox3").innerHTML = "Player 1: <br>";
+    document.getElementById("playerbox4").innerHTML = "Player 1: <br>";
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].classList.remove("display");
+    }
 }

@@ -94,7 +94,7 @@ button:hover {
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
     padding: 20px;
     border-radius: 20px;
-    width: 1000px;
+    width: 1100px;
     max-width: 90%;
     background-color: #ccc;
     margin: 0 auto;
@@ -229,7 +229,7 @@ button:hover {
 }
 
 .memory-game {
-    margin: 60px 70px;
+    margin: 70px 70px;
     display: flex;
     flex-wrap: wrap;
     perspective: 1000px;
