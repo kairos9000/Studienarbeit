@@ -73,10 +73,70 @@ function resetfunction() {
 
 cards = document.querySelectorAll(".memory-card");
 
-function flipCard() {
-    this.classList.toggle("flip");
-}
+let hasFlippedCard = false;
+let firstCard, secondCard;
+let lockBoard = false;
 
 for (let i = 0; i < cards.length; i++) {
     cards[i].addEventListener("click", flipCard);
 }
+
+function flipCard() {
+    if (lockBoard) return;
+    if (this === firstCard) return;
+    this.classList.add("flip");
+
+    if (!hasFlippedCard) {
+        hasFlippedCard = true;
+        firstCard = this;
+
+        return;
+    }
+
+    secondCard = this;
+
+    hasFlippedCard = false;
+
+    checkForMatch();
+}
+
+function checkForMatch() {
+    if (firstCard.getAttribute("value") === secondCard.getAttribute("value")) {
+        disableCards();
+        return;
+    }
+
+    unflipCards();
+}
+
+function disableCards() {
+    firstCard.removeEventListener("click", flipCard);
+    secondCard.removeEventListener("click", flipCard);
+    resetBoard();
+}
+
+function unflipCards() {
+    lockBoard = true;
+    setTimeout(function () {
+        setTimeout(function () {
+            firstCard.classList.remove("flip");
+        }, 100);
+
+        secondCard.classList.remove("flip");
+        lockBoard = false;
+    }, 1000);
+}
+
+function resetBoard() {
+    hasFlippedCard = false;
+    lockBoard = false;
+    firstCard = null;
+    secondCard = null;
+}
+
+(function shuffle() {
+    for (let i = 0; i < cards.length; i++) {
+        let ramdomPos = Math.floor(Math.random() * 12);
+        cards[i].style.order = ramdomPos;
+    }
+})();
