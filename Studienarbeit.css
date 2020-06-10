@@ -94,22 +94,24 @@ button:hover {
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
     padding: 20px;
     border-radius: 20px;
-    width: 800px;
+    width: 1000px;
     max-width: 90%;
-    margin: 50px auto;
     background-color: #ccc;
-    transition-property: transform scale opacity;
-    transform: scale(1);
-    opacity: 1;
+    margin: 0 auto;
+    pointer-events: none;
+    transition-property: transform, opacity;
+    transform: scale(0.5);
+    opacity: 0;
     transition-duration: 1.5s;
     transform-origin: 50% 0%;
     position: relative;
 }
 
 #Hauptspiel.einfliegen {
-    opacity: 0;
-    transform: scale(0.5);
-    pointer-events: none;
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    transform: translateY(5%);
 }
 
 #Konfiguration {
@@ -227,7 +229,7 @@ button:hover {
 }
 
 .memory-game {
-    margin: 70px 70px;
+    margin: 60px 70px;
     display: flex;
     flex-wrap: wrap;
     perspective: 1000px;

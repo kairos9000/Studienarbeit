@@ -1,5 +1,5 @@
 setPlayerFunctions(1);
-document.getElementById("Hauptspiel").classList.add("einfliegen");
+document.getElementById("Hauptspiel").classList.remove("einfliegen");
 
 function setPlayerFunctions(amount) {
     setPlayerBoxesVisible(amount);
@@ -42,7 +42,7 @@ function setPlayerBoxVisible(visible, playerbox) {
 
 function startfunction() {
     document.getElementById("rahmen").classList.add("schieben");
-    document.getElementById("Hauptspiel").classList.remove("einfliegen");
+    document.getElementById("Hauptspiel").classList.add("einfliegen");
     shuffle(document.getElementById("Paarslider").value);
     displayCards(document.getElementById("Paarslider").value);
     setTextNode("text1", "Spieler 1", "playerbox1");
@@ -160,5 +160,5 @@ function shuffle(anzahl) {
 function spielresetfunction() {
     resetfunction();
     document.getElementById("rahmen").classList.remove("schieben");
-    document.getElementById("Hauptspiel").classList.add("einfliegen");
+    document.getElementById("Hauptspiel").classList.remove("einfliegen");
 }
