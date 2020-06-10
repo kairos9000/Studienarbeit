@@ -102,7 +102,7 @@ button:hover {
     transition-property: transform, opacity;
     transform: scale(0.5);
     opacity: 0;
-    transition-duration: 1.5s;
+    transition-duration: 1s;
     transform-origin: 50% 0%;
     position: relative;
 }
