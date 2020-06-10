@@ -43,6 +43,8 @@ function setPlayerBoxVisible(visible, playerbox) {
 function startfunction() {
     document.getElementById("rahmen").classList.add("schieben");
     document.getElementById("Hauptspiel").classList.remove("einfliegen");
+    shuffle(document.getElementById("Paarslider").value);
+    displayCards(document.getElementById("Paarslider").value);
     setTextNode("text1", "Spieler 1", "playerbox1");
     setTextNode("text2", "Spieler 2", "playerbox2");
     setTextNode("text3", "Spieler 3", "playerbox3");
@@ -73,9 +75,16 @@ function resetfunction() {
 
 cards = document.querySelectorAll(".memory-card");
 
+function displayCards(anzahl) {
+    for (let i = 0; i < cards.length; i++) {
+        if (anzahl <= i / 2) cards[i].classList.add("display");
+    }
+}
+
 let hasFlippedCard = false;
 let firstCard, secondCard;
 let lockBoard = false;
+let naechsteKarte = false;
 
 for (let i = 0; i < cards.length; i++) {
     cards[i].addEventListener("click", flipCard);
@@ -84,6 +93,8 @@ for (let i = 0; i < cards.length; i++) {
 function flipCard() {
     if (lockBoard) return;
     if (this === firstCard) return;
+    if (this === secondCard) return;
+
     this.classList.add("flip");
 
     if (!hasFlippedCard) {
@@ -96,7 +107,7 @@ function flipCard() {
     secondCard = this;
 
     hasFlippedCard = false;
-
+    naechsteKarte = true;
     checkForMatch();
 }
 
@@ -106,7 +117,11 @@ function checkForMatch() {
         return;
     }
 
-    unflipCards();
+    if (naechsteKarte) {
+        unflipCards();
+        naechsteKarte = false;
+        return;
+    }
 }
 
 function disableCards() {
@@ -120,10 +135,11 @@ function unflipCards() {
     setTimeout(function () {
         setTimeout(function () {
             firstCard.classList.remove("flip");
+            lockBoard = false;
+            resetBoard();
         }, 100);
 
         secondCard.classList.remove("flip");
-        lockBoard = false;
     }, 1000);
 }
 
@@ -134,9 +150,15 @@ function resetBoard() {
     secondCard = null;
 }
 
-(function shuffle() {
+function shuffle(anzahl) {
     for (let i = 0; i < cards.length; i++) {
-        let ramdomPos = Math.floor(Math.random() * 12);
+        let ramdomPos = Math.floor(Math.random() * anzahl);
         cards[i].style.order = ramdomPos;
     }
-})();
+}
+
+function spielresetfunction() {
+    resetfunction();
+    document.getElementById("rahmen").classList.remove("schieben");
+    document.getElementById("Hauptspiel").classList.add("einfliegen");
+}

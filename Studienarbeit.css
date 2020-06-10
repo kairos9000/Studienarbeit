@@ -2,12 +2,11 @@ body {
     font-family: Arial, sans-serif;
     font-size: 20px;
     background-color: #57a;
-
     display: flex;
 }
 
 button {
-    margin: 0 10px;
+    margin: 10px 10px;
     padding: 10px 16px;
     border: solid 2px black;
     border-radius: 16px;
@@ -18,6 +17,7 @@ button {
 }
 
 input[type="text"] {
+    font-size: 16px;
     margin-left: 10px;
     border: solid black 2px;
     padding: 4px 8px;
@@ -34,11 +34,13 @@ button:hover {
     transform: scale(1.1);
 }
 
+#spielreset,
 #resetknopf,
 #randomknopf {
     background-color: #35919d;
 }
 
+#spielreset:hover,
 #resetknopf:hover,
 #randomknopf:hover {
     background-color: #2baabb;
@@ -101,7 +103,6 @@ button:hover {
     opacity: 1;
     transition-duration: 1.5s;
     transform-origin: 50% 0%;
-
     position: relative;
 }
 
@@ -236,20 +237,18 @@ button:hover {
     outline: none;
     margin: 10px 10px;
     position: relative;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
     transform: scale(1);
-    transition: transform 0.5s;
+    transition: transform 0.2s, box-shadow 0.5s;
     transform-style: preserve-3d;
 }
 
 .memory-card:active {
     transform: scale(0.97);
-    transition: transform 0.2s;
 }
 
 .memory-card:hover {
     transform: scale(1.1);
-    transition: transform 0.2s;
+    box-shadow: 0 0 16px rgba(251, 255, 0, 0.788);
 }
 
 .memory-card.flip {
@@ -257,8 +256,13 @@ button:hover {
     transform: rotateY(180deg);
 }
 
+.memory-card.display {
+    display: none;
+}
+
 .front-face,
 .back-face {
+    outline: none;
     padding: 20px;
     border-radius: 5px;
     background: #1c7ccc;
@@ -269,4 +273,8 @@ button:hover {
 .front-face {
     position: absolute;
     transform: rotateY(180deg);
+}
+
+#spielreset_container {
+    text-align: center;
 }
