@@ -49,6 +49,8 @@ function startfunction() {
     setTextNode("text2", "Spieler 2", "playerbox2");
     setTextNode("text3", "Spieler 3", "playerbox3");
     setTextNode("text4", "Spieler 4", "playerbox4");
+
+    timer = setInterval(setTime, 1000);
 }
 
 function setTextNode(textValue, spieler, playerbox) {
@@ -167,5 +169,30 @@ function spielresetfunction() {
     document.getElementById("playerbox4").innerHTML = "Player 1: <br>";
     for (let i = 0; i < cards.length; i++) {
         cards[i].classList.remove("display");
+    }
+    clearInterval(timer);
+    totalSeconds = 0;
+    minutesLabel.innerHTML = "00";
+    secondsLabel.innerHTML = "00";
+}
+
+var minutesLabel = document.getElementById("minutes");
+var secondsLabel = document.getElementById("seconds");
+var totalSeconds = 0;
+var timer = setInterval(setTime, 1000);
+clearInterval(timer);
+
+function setTime() {
+    ++totalSeconds;
+    secondsLabel.innerHTML = pad(totalSeconds % 60);
+    minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+}
+
+function pad(val) {
+    var valString = val + "";
+    if (valString.length < 2) {
+        return "0" + valString;
+    } else {
+        return valString;
     }
 }
