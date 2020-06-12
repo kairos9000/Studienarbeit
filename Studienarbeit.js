@@ -47,19 +47,6 @@ function setPlayerBoxVisible(visible, playerbox) {
     }
 }
 
-function startfunction() {
-    document.getElementById("rahmen").classList.add("schieben");
-    document.getElementById("Hauptspiel").classList.add("einfliegen");
-    shuffle(document.getElementById("Paarslider").value);
-    displayCards(document.getElementById("Paarslider").value);
-    setTextNode("text1", "Spieler 1", "playerbox1");
-    setTextNode("text2", "Spieler 2", "playerbox2");
-    setTextNode("text3", "Spieler 3", "playerbox3");
-    setTextNode("text4", "Spieler 4", "playerbox4");
-
-    timer = setInterval(setTime, 1000);
-}
-
 function setTextNode(textValue, spieler, playerbox) {
     let textnode = document.createTextNode(
         document.getElementById(textValue).value
@@ -82,21 +69,28 @@ function resetfunction() {
     document.getElementById("text4").value = "";
 }
 
-cards = document.querySelectorAll(".memory-card");
-
-function displayCards(anzahl) {
+var cards;
+function startfunction() {
+    kartensetzen(document.getElementById("Paarslider").value);
+    cards = document.querySelectorAll(".memory-card");
     for (let i = 0; i < cards.length; i++) {
-        if (anzahl <= i / 2) cards[i].classList.add("display");
+        cards[i].addEventListener("click", flipCard);
     }
+    document.getElementById("rahmen").classList.add("schieben");
+    document.getElementById("Hauptspiel").classList.add("einfliegen");
+
+    shuffle(document.getElementById("Paarslider").value);
+    setTextNode("text1", "Spieler 1", "playerbox1");
+    setTextNode("text2", "Spieler 2", "playerbox2");
+    setTextNode("text3", "Spieler 3", "playerbox3");
+    setTextNode("text4", "Spieler 4", "playerbox4");
+
+    timer = setInterval(setTime, 1000);
 }
 
 let hasFlippedCard = false;
 let firstCard, secondCard;
 let lockBoard = false;
-
-for (let i = 0; i < cards.length; i++) {
-    cards[i].addEventListener("click", flipCard);
-}
 
 function flipCard() {
     if (lockBoard) return;
@@ -119,13 +113,80 @@ function flipCard() {
     checkForMatch();
 }
 
+var counter1 = 0;
+var bool = true;
+var counter2 = 0;
+var counter3 = 0;
+var counter4 = 0;
+
 function checkForMatch() {
     if (firstCard.getAttribute("value") === secondCard.getAttribute("value")) {
         disableCards();
+        if (
+            document
+                .getElementById("playerbox1")
+                .classList.contains("hervorheben")
+        ) {
+            document.getElementById("playerbox1").innerHTML =
+                "Hallo" + counter1;
+            counter1++;
+        }
+        if (
+            document
+                .getElementById("playerbox2")
+                .classList.contains("hervorheben")
+        ) {
+            document.getElementById("playerbox2").innerHTML =
+                "Hallo" + counter2;
+            counter2++;
+        }
+        if (
+            document
+                .getElementById("playerbox3")
+                .classList.contains("hervorheben")
+        ) {
+            document.getElementById("playerbox3").innerHTML =
+                "Hallo" + counter3;
+            counter3++;
+        }
+        if (
+            document
+                .getElementById("playerbox4")
+                .classList.contains("hervorheben")
+        ) {
+            document.getElementById("playerbox4").innerHTML =
+                "Hallo" + counter4;
+            counter4++;
+        }
         return;
     }
 
     unflipCards();
+
+    if (
+        document.getElementById("playerbox1").classList.contains("hervorheben")
+    ) {
+        document.getElementById("playerbox1").innerHTML += counter1;
+        counter1++;
+    }
+    if (
+        document.getElementById("playerbox2").classList.contains("hervorheben")
+    ) {
+        document.getElementById("playerbox2").innerHTML = "Hallo" + counter2;
+        counter2++;
+    }
+    if (
+        document.getElementById("playerbox3").classList.contains("hervorheben")
+    ) {
+        document.getElementById("playerbox3").innerHTML = "Hallo" + counter3;
+        counter3++;
+    }
+    if (
+        document.getElementById("playerbox4").classList.contains("hervorheben")
+    ) {
+        document.getElementById("playerbox4").innerHTML = "Hallo" + counter4;
+        counter4++;
+    }
 
     setTimeout(function () {
         nextPlayer();
@@ -184,15 +245,13 @@ function nextPlayer() {
 
     for (let i = 0; i < players.length; i++) {
         if (players[i].getAttribute("value") == vergleich) {
-            var removePlayer = players[i];
-            removePlayer.classList.remove("hervorheben");
+            players[i].classList.remove("hervorheben");
         }
         if (
             players[(i + 1) % totalAmount].getAttribute("value") ==
             (vergleich + 1) % totalAmount
         ) {
-            var addPlayer = players[(i + 1) % totalAmount];
-            addPlayer.classList.add("hervorheben");
+            players[(i + 1) % totalAmount].classList.add("hervorheben");
         }
     }
 
@@ -208,6 +267,7 @@ function resetBoard() {
 }
 
 function shuffle(anzahl) {
+    console.log(cards);
     for (let i = 0; i < cards.length; i++) {
         let ramdomPos = Math.floor(Math.random() * anzahl);
         cards[i].style.order = ramdomPos;
@@ -215,12 +275,18 @@ function shuffle(anzahl) {
 }
 
 function spielresetfunction() {
+    document.getElementById("rahmen").classList.remove("schieben");
+    document.getElementById("Hauptspiel").classList.remove("einfliegen");
+    console.log(cards);
     resetfunction();
     setPlayerFunctions(1);
     for (let i = 0; i < cards.length; i++) {
+        cards[i].remove();
         cards[i].classList.remove("flip");
         cards[i].addEventListener("click", flipCard);
     }
+
+    console.log(cards);
 
     for (let i = 0; i < players.length; i++) {
         players[i].classList.remove("hervorheben");
@@ -233,12 +299,11 @@ function spielresetfunction() {
     vergleich = 0;
     nextPlayer();
     totalAmount = undefined;
-    document.getElementById("rahmen").classList.remove("schieben");
-    document.getElementById("Hauptspiel").classList.remove("einfliegen");
+
     document.getElementById("playerbox1").innerHTML = "Player 1: <br>";
-    document.getElementById("playerbox2").innerHTML = "Player 1: <br>";
-    document.getElementById("playerbox3").innerHTML = "Player 1: <br>";
-    document.getElementById("playerbox4").innerHTML = "Player 1: <br>";
+    document.getElementById("playerbox2").innerHTML = "Player 2: <br>";
+    document.getElementById("playerbox3").innerHTML = "Player 3: <br>";
+    document.getElementById("playerbox4").innerHTML = "Player 4: <br>";
     for (let i = 0; i < cards.length; i++) {
         cards[i].classList.remove("display");
     }
@@ -266,5 +331,45 @@ function pad(val) {
         return "0" + valString;
     } else {
         return valString;
+    }
+}
+
+var emoji = 13;
+
+function kartensetzen(amount) {
+    for (var i = 1; i <= amount; i++) {
+        var karte1 = document.createElement("div");
+        karte1.classList.add("memory-card");
+        karte1.setAttribute("value", i);
+
+        var frontface1 = document.createElement("div");
+        frontface1.setAttribute("class", "front-face");
+        frontface1.innerHTML = "&#1285" + emoji + ";";
+
+        var backface1 = document.createElement("div");
+        backface1.setAttribute("class", "back-face");
+        backface1.innerHTML = "&#128512;";
+
+        karte1.appendChild(frontface1);
+        karte1.appendChild(backface1);
+        document.getElementById("memory-game").appendChild(karte1);
+
+        var karte2 = document.createElement("div");
+        karte2.classList.add("memory-card");
+        karte2.setAttribute("value", i);
+
+        var frontface2 = document.createElement("div");
+        frontface2.setAttribute("class", "front-face");
+        frontface2.innerHTML = "&#1285" + emoji + ";";
+
+        var backface2 = document.createElement("div");
+        backface2.setAttribute("class", "back-face");
+        backface2.innerHTML = "&#128512;";
+
+        karte2.appendChild(frontface2);
+        karte2.appendChild(backface2);
+        document.getElementById("memory-game").appendChild(karte2);
+
+        emoji++;
     }
 }
