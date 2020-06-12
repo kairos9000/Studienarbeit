@@ -80,10 +80,10 @@ function startfunction() {
     document.getElementById("Hauptspiel").classList.add("einfliegen");
 
     shuffle(document.getElementById("Paarslider").value);
-    setTextNode("text1", "Spieler 1", "playerbox1");
-    setTextNode("text2", "Spieler 2", "playerbox2");
-    setTextNode("text3", "Spieler 3", "playerbox3");
-    setTextNode("text4", "Spieler 4", "playerbox4");
+    setTextNode("text1", "Spieler 1", "namenbox1");
+    setTextNode("text2", "Spieler 2", "namenbox2");
+    setTextNode("text3", "Spieler 3", "namenbox3");
+    setTextNode("text4", "Spieler 4", "namenbox4");
 
     timer = setInterval(setTime, 1000);
 }
@@ -113,11 +113,14 @@ function flipCard() {
     checkForMatch();
 }
 
-var counter1 = 0;
-var bool = true;
-var counter2 = 0;
-var counter3 = 0;
-var counter4 = 0;
+var versuchecounter1 = 1;
+var versuchecounter2 = 1;
+var versuchecounter3 = 1;
+var versuchecounter4 = 1;
+var paarecounter1 = 1;
+var paarecounter2 = 1;
+var paarecounter3 = 1;
+var paarecounter4 = 1;
 
 function checkForMatch() {
     if (firstCard.getAttribute("value") === secondCard.getAttribute("value")) {
@@ -127,36 +130,48 @@ function checkForMatch() {
                 .getElementById("playerbox1")
                 .classList.contains("hervorheben")
         ) {
-            document.getElementById("playerbox1").innerHTML =
-                "Hallo" + counter1;
-            counter1++;
+            document.getElementById("versuchebox1").innerHTML =
+                "Versuche: " + versuchecounter1;
+            versuchecounter1++;
+            document.getElementById("paarebox1").innerHTML =
+                "Paare: " + paarecounter1;
+            paarecounter1++;
         }
         if (
             document
                 .getElementById("playerbox2")
                 .classList.contains("hervorheben")
         ) {
-            document.getElementById("playerbox2").innerHTML =
-                "Hallo" + counter2;
-            counter2++;
+            document.getElementById("versuchebox2").innerHTML =
+                "Versuche: " + versuchecounter2;
+            versuchecounter2++;
+            document.getElementById("paarebox2").innerHTML =
+                "Paare: " + paarecounter2;
+            paarecounter2++;
         }
         if (
             document
                 .getElementById("playerbox3")
                 .classList.contains("hervorheben")
         ) {
-            document.getElementById("playerbox3").innerHTML =
-                "Hallo" + counter3;
-            counter3++;
+            document.getElementById("versuchebox3").innerHTML =
+                "Versuche: " + versuchecounter3;
+            versuchecounter3++;
+            document.getElementById("paarebox3").innerHTML =
+                "Paare: " + paarecounter3;
+            paarecounter3++;
         }
         if (
             document
                 .getElementById("playerbox4")
                 .classList.contains("hervorheben")
         ) {
-            document.getElementById("playerbox4").innerHTML =
-                "Hallo" + counter4;
-            counter4++;
+            document.getElementById("versuchebox4").innerHTML =
+                "Versuche: " + versuchecounter4;
+            versuchecounter4++;
+            document.getElementById("paarebox4").innerHTML =
+                "Paare: " + paarecounter4;
+            paarecounter4++;
         }
         return;
     }
@@ -166,26 +181,30 @@ function checkForMatch() {
     if (
         document.getElementById("playerbox1").classList.contains("hervorheben")
     ) {
-        document.getElementById("playerbox1").innerHTML += counter1;
-        counter1++;
+        document.getElementById("versuchebox1").innerHTML =
+            "Versuche: " + versuchecounter1;
+        versuchecounter1++;
     }
     if (
         document.getElementById("playerbox2").classList.contains("hervorheben")
     ) {
-        document.getElementById("playerbox2").innerHTML = "Hallo" + counter2;
-        counter2++;
+        document.getElementById("versuchebox2").innerHTML =
+            "Versuche: " + versuchecounter2;
+        versuchecounter2++;
     }
     if (
         document.getElementById("playerbox3").classList.contains("hervorheben")
     ) {
-        document.getElementById("playerbox3").innerHTML = "Hallo" + counter3;
-        counter3++;
+        document.getElementById("versuchebox3").innerHTML =
+            "Versuche: " + versuchecounter3;
+        versuchecounter3++;
     }
     if (
         document.getElementById("playerbox4").classList.contains("hervorheben")
     ) {
-        document.getElementById("playerbox4").innerHTML = "Hallo" + counter4;
-        counter4++;
+        document.getElementById("versuchebox4").innerHTML =
+            "Versuche: " + versuchecounter4;
+        versuchecounter4++;
     }
 
     setTimeout(function () {
@@ -300,10 +319,10 @@ function spielresetfunction() {
     nextPlayer();
     totalAmount = undefined;
 
-    document.getElementById("playerbox1").innerHTML = "Player 1: <br>";
-    document.getElementById("playerbox2").innerHTML = "Player 2: <br>";
-    document.getElementById("playerbox3").innerHTML = "Player 3: <br>";
-    document.getElementById("playerbox4").innerHTML = "Player 4: <br>";
+    document.getElementById("namenbox1").innerHTML = "Player 1: <br>";
+    document.getElementById("namenbox2").innerHTML = "Player 2: <br>";
+    document.getElementById("namenbox3").innerHTML = "Player 3: <br>";
+    document.getElementById("namenbox4").innerHTML = "Player 4: <br>";
     for (let i = 0; i < cards.length; i++) {
         cards[i].classList.remove("display");
     }

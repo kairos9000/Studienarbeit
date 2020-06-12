@@ -200,6 +200,7 @@ button:hover {
 
 #playerbox1 {
     background-color: #81c784;
+
     left: 0;
     top: 0;
 }
@@ -229,7 +230,7 @@ button:hover {
 }
 
 #memory-game {
-    margin: 70px 70px;
+    margin: 90px 80px;
     display: flex;
     flex-wrap: wrap;
     perspective: 1000px;
