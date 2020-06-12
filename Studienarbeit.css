@@ -168,7 +168,7 @@ button:hover {
 
 .player {
     margin: 20px;
-    transition-property: opacity, transform;
+    transition-property: opacity, transform, box-shadow;
     transition-duration: 0.4s;
     transform-origin: 50% 0%;
 }
@@ -283,4 +283,9 @@ button:hover {
 
 #timer {
     text-align: center;
+}
+
+.player.hervorheben {
+    transform: scale(1.1);
+    box-shadow: 0 0 16px rgba(251, 255, 0, 0.788);
 }

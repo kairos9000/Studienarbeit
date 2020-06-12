@@ -86,7 +86,6 @@ function displayCards(anzahl) {
 let hasFlippedCard = false;
 let firstCard, secondCard;
 let lockBoard = false;
-let naechsteKarte = false;
 
 for (let i = 0; i < cards.length; i++) {
     cards[i].addEventListener("click", flipCard);
@@ -109,7 +108,7 @@ function flipCard() {
     secondCard = this;
 
     hasFlippedCard = false;
-    naechsteKarte = true;
+
     checkForMatch();
 }
 
@@ -119,11 +118,11 @@ function checkForMatch() {
         return;
     }
 
-    if (naechsteKarte) {
-        unflipCards();
-        naechsteKarte = false;
-        return;
-    }
+    unflipCards();
+
+    setTimeout(function () {
+        nextPlayer(0);
+    }, 1200);
 }
 
 function disableCards() {
@@ -143,6 +142,43 @@ function unflipCards() {
 
         secondCard.classList.remove("flip");
     }, 1000);
+}
+
+var players = [
+    document.getElementById("playerbox1"),
+    document.getElementById("playerbox2"),
+    document.getElementById("playerbox3"),
+    document.getElementById("playerbox4"),
+];
+
+var vergleich = 0;
+var originalAmount;
+
+function nextPlayer(amount) {
+    if (defaulthervorheben) {
+        originalAmount = amount;
+        document.getElementById("playerbox1").classList.add("hervorheben");
+        defaulthervorheben = false;
+        return;
+    }
+
+    vergleich % originalAmount;
+
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].getAttribute("value") == vergleich) {
+            var removePlayer = players[i];
+            removePlayer.classList.remove("hervorheben");
+        }
+        if (
+            players[(i + 1) % originalAmount].getAttribute("value") ==
+            vergleich + 1
+        ) {
+            var addPlayer = players[(i + 1) % originalAmount];
+            addPlayer.classList.add("hervorheben");
+        }
+    }
+
+    vergleich++;
 }
 
 function resetBoard() {
