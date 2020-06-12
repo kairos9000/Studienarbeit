@@ -1,5 +1,12 @@
 setPlayerFunctions(1);
+var defaulthervorheben = true;
+nextPlayer();
 document.getElementById("Hauptspiel").classList.remove("einfliegen");
+var totalAmount;
+document.getElementById("select1").addEventListener("click", myfunction);
+document.getElementById("select2").addEventListener("click", myfunction);
+document.getElementById("select3").addEventListener("click", myfunction);
+document.getElementById("select4").addEventListener("click", myfunction);
 
 function setPlayerFunctions(amount) {
     setPlayerBoxesVisible(amount);
@@ -121,7 +128,7 @@ function checkForMatch() {
     unflipCards();
 
     setTimeout(function () {
-        nextPlayer(0);
+        nextPlayer();
     }, 1200);
 }
 
@@ -152,17 +159,28 @@ var players = [
 ];
 
 var vergleich = 0;
-var originalAmount;
 
-function nextPlayer(amount) {
+function myfunction() {
+    totalAmount = this.value;
+    console.log(totalAmount);
+}
+
+function nextPlayer() {
     if (defaulthervorheben) {
-        originalAmount = amount;
         document.getElementById("playerbox1").classList.add("hervorheben");
         defaulthervorheben = false;
         return;
     }
 
-    vergleich % originalAmount;
+    if (totalAmount == undefined) {
+        document.getElementById("playerbox1").classList.add("hervorheben");
+        return;
+    }
+
+    if (totalAmount == 1) {
+        document.getElementById("playerbox1").classList.add("hervorheben");
+        return;
+    }
 
     for (let i = 0; i < players.length; i++) {
         if (players[i].getAttribute("value") == vergleich) {
@@ -170,15 +188,16 @@ function nextPlayer(amount) {
             removePlayer.classList.remove("hervorheben");
         }
         if (
-            players[(i + 1) % originalAmount].getAttribute("value") ==
-            vergleich + 1
+            players[(i + 1) % totalAmount].getAttribute("value") ==
+            (vergleich + 1) % totalAmount
         ) {
-            var addPlayer = players[(i + 1) % originalAmount];
+            var addPlayer = players[(i + 1) % totalAmount];
             addPlayer.classList.add("hervorheben");
         }
     }
 
     vergleich++;
+    vergleich %= totalAmount;
 }
 
 function resetBoard() {
@@ -197,6 +216,23 @@ function shuffle(anzahl) {
 
 function spielresetfunction() {
     resetfunction();
+    setPlayerFunctions(1);
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].classList.remove("flip");
+        cards[i].addEventListener("click", flipCard);
+    }
+
+    for (let i = 0; i < players.length; i++) {
+        players[i].classList.remove("hervorheben");
+    }
+    document.getElementById("select1").addEventListener("click", myfunction);
+    document.getElementById("select2").addEventListener("click", myfunction);
+    document.getElementById("select3").addEventListener("click", myfunction);
+    document.getElementById("select4").addEventListener("click", myfunction);
+    defaulthervorheben = true;
+    vergleich = 0;
+    nextPlayer();
+    totalAmount = undefined;
     document.getElementById("rahmen").classList.remove("schieben");
     document.getElementById("Hauptspiel").classList.remove("einfliegen");
     document.getElementById("playerbox1").innerHTML = "Player 1: <br>";
