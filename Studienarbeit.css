@@ -200,25 +200,32 @@ button:hover {
 
 #playerbox1 {
     background-color: #81c784;
-
+    border-radius: 5px;
+    padding: 10px;
     left: 0;
     top: 0;
 }
 
 #playerbox2 {
     background-color: #ba68c8;
+    border-radius: 5px;
+    padding: 10px;
     right: 0;
     top: 0;
 }
 
 #playerbox3 {
     background-color: #7986cb;
+    border-radius: 5px;
+    padding: 10px;
     left: 0;
     bottom: 0;
 }
 
 #playerbox4 {
     background-color: #4db6ac;
+    border-radius: 5px;
+    padding: 10px;
     right: 0;
     bottom: 0;
 }
@@ -230,7 +237,7 @@ button:hover {
 }
 
 #memory-game {
-    margin: 90px 80px;
+    margin: 110px 80px;
     display: flex;
     flex-wrap: wrap;
     perspective: 1000px;
