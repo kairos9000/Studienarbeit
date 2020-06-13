@@ -79,7 +79,7 @@ function startfunction() {
     document.getElementById("rahmen").classList.add("schieben");
     document.getElementById("Hauptspiel").classList.add("einfliegen");
 
-    shuffle(document.getElementById("Paarslider").value);
+    //shuffle(document.getElementById("Paarslider").value);
     setTextNode("text1", "Spieler 1", "namenbox1");
     setTextNode("text2", "Spieler 2", "namenbox2");
     setTextNode("text3", "Spieler 3", "namenbox3");
@@ -426,5 +426,83 @@ function endtest() {
 
 function endscreen() {
     clearInterval(timer);
-    document.body.classList.add("verdunkeln");
+    document.getElementById("Hauptspiel").classList.add("verdunkeln");
+    document.getElementById("endscreen").classList.add("verdunkeln");
+    document.getElementById("siegertabelle").classList.add("anzeigen");
+    var siegerarray = [
+        paarecounter1 - 1,
+        paarecounter2 - 1,
+        paarecounter3 - 1,
+        paarecounter4 - 1,
+    ];
+
+    var vergleichsarray = [
+        paarecounter1 - 1,
+        paarecounter2 - 1,
+        paarecounter3 - 1,
+        paarecounter4 - 1,
+    ];
+
+    var erster;
+    var zweiter;
+    var dritter;
+    var vierter;
+
+    let bubblesort = 0;
+    while (bubblesort <= 3) {
+        for (var i = 0; i < siegerarray.length; i++) {
+            if (siegerarray[i] < siegerarray[i + 1]) {
+                let tmp = siegerarray[i + 1];
+                siegerarray[i + 1] = siegerarray[i];
+                siegerarray[i] = tmp;
+            }
+        }
+
+        bubblesort++;
+    }
+
+    var lock1 = true;
+    var lock2 = true;
+    var lock3 = true;
+    var lock4 = true;
+
+    for (var i = 0; i < vergleichsarray.length; i++) {
+        if (lock1) {
+            if (siegerarray[0] == vergleichsarray[i]) {
+                erster = i;
+                lock1 = false;
+                continue;
+            }
+        }
+
+        if (lock2) {
+            if (siegerarray[1] == vergleichsarray[i]) {
+                zweiter = i;
+                lock2 = false;
+                continue;
+            }
+        }
+
+        if (lock3) {
+            if (siegerarray[2] == vergleichsarray[i]) {
+                dritter = i;
+                lock3 = false;
+                continue;
+            }
+        }
+
+        if (lock4) {
+            if (siegerarray[3] == vergleichsarray[i]) {
+                vierter = i;
+                lock4 = false;
+                continue;
+            }
+        }
+    }
+
+    console.log(siegerarray);
+    console.log(erster);
+    console.log(zweiter);
+    console.log(dritter);
+    console.log(vierter);
 }
