@@ -344,3 +344,10 @@ button:hover {
     z-index: 1;
     opacity: 1;
 }
+
+#sieger1.nodisplay,
+#sieger2.nodisplay,
+#sieger3.nodisplay,
+#sieger4.nodisplay {
+    display: none;
+}

@@ -11,6 +11,7 @@ document.getElementById("select4").addEventListener("click", myfunction);
 function setPlayerFunctions(amount) {
     setPlayerBoxesVisible(amount);
     setPlayersVisible(amount);
+    setWinnerBoxesVisible(amount);
 }
 
 function setPaar() {
@@ -44,6 +45,20 @@ function setPlayerBoxVisible(visible, playerbox) {
         playerbox.classList.remove("hidden");
     } else {
         playerbox.classList.add("hidden");
+    }
+}
+
+function setWinnerBoxesVisible(amount) {
+    setWinnerBoxVisible(amount >= 2, document.getElementById("sieger2"));
+    setWinnerBoxVisible(amount >= 3, document.getElementById("sieger3"));
+    setWinnerBoxVisible(amount >= 4, document.getElementById("sieger4"));
+}
+
+function setWinnerBoxVisible(visible, playerbox) {
+    if (visible) {
+        playerbox.classList.remove("nodisplay");
+    } else {
+        playerbox.classList.add("nodisplay");
     }
 }
 
@@ -429,7 +444,7 @@ function endscreen() {
     document.getElementById("Hauptspiel").classList.add("verdunkeln");
     document.getElementById("endscreen").classList.add("verdunkeln");
     document.getElementById("siegertabelle").classList.add("anzeigen");
-    var siegerarray = [
+    var sortingarray = [
         paarecounter1 - 1,
         paarecounter2 - 1,
         paarecounter3 - 1,
@@ -450,11 +465,11 @@ function endscreen() {
 
     let bubblesort = 0;
     while (bubblesort <= 3) {
-        for (var i = 0; i < siegerarray.length; i++) {
-            if (siegerarray[i] < siegerarray[i + 1]) {
-                let tmp = siegerarray[i + 1];
-                siegerarray[i + 1] = siegerarray[i];
-                siegerarray[i] = tmp;
+        for (var i = 0; i < sortingarray.length; i++) {
+            if (sortingarray[i] < sortingarray[i + 1]) {
+                let tmp = sortingarray[i + 1];
+                sortingarray[i + 1] = sortingarray[i];
+                sortingarray[i] = tmp;
             }
         }
 
@@ -468,7 +483,7 @@ function endscreen() {
 
     for (var i = 0; i < vergleichsarray.length; i++) {
         if (lock1) {
-            if (siegerarray[0] == vergleichsarray[i]) {
+            if (sortingarray[0] == vergleichsarray[i]) {
                 erster = i;
                 lock1 = false;
                 continue;
@@ -476,7 +491,7 @@ function endscreen() {
         }
 
         if (lock2) {
-            if (siegerarray[1] == vergleichsarray[i]) {
+            if (sortingarray[1] == vergleichsarray[i]) {
                 zweiter = i;
                 lock2 = false;
                 continue;
@@ -484,7 +499,7 @@ function endscreen() {
         }
 
         if (lock3) {
-            if (siegerarray[2] == vergleichsarray[i]) {
+            if (sortingarray[2] == vergleichsarray[i]) {
                 dritter = i;
                 lock3 = false;
                 continue;
@@ -492,7 +507,7 @@ function endscreen() {
         }
 
         if (lock4) {
-            if (siegerarray[3] == vergleichsarray[i]) {
+            if (sortingarray[3] == vergleichsarray[i]) {
                 vierter = i;
                 lock4 = false;
                 continue;
@@ -500,9 +515,45 @@ function endscreen() {
         }
     }
 
-    console.log(siegerarray);
+    console.log(sortingarray);
     console.log(erster);
     console.log(zweiter);
     console.log(dritter);
     console.log(vierter);
+
+    var siegerarray = [
+        document.getElementById("sieger1"),
+        document.getElementById("sieger2"),
+        document.getElementById("sieger3"),
+        document.getElementById("sieger4"),
+    ];
+
+    var textarray = [
+        document.getElementById("text1"),
+        document.getElementById("text2"),
+        document.getElementById("text3"),
+        document.getElementById("text4"),
+    ];
+
+    if (textarray[erster].value.trim().length === 0) {
+        siegerarray[0].innerHTML = "Spieler " + (erster + 1);
+    } else siegerarray[0].innerHTML = textarray[erster].value;
+
+    if (textarray[zweiter].value != undefined) {
+        if (textarray[zweiter].value.trim().length === 0) {
+            siegerarray[1].innerHTML = "Spieler " + (zweiter + 1);
+        } else siegerarray[1].innerHTML = textarray[zweiter].value;
+    }
+
+    if (textarray[dritter].value != undefined) {
+        if (textarray[dritter].value.trim().length === 0) {
+            siegerarray[2].innerHTML = "Spieler " + (dritter + 1);
+        } else siegerarray[2].innerHTML = textarray[dritter].value;
+    }
+
+    if (textarray[vierter].value != undefined) {
+        if (textarray[vierter].value.trim().length === 0) {
+            siegerarray[3].innerHTML = "Spieler " + (vierter + 1);
+        } else siegerarray[3].innerHTML = textarray[vierter].value;
+    }
 }
