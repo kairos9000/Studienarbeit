@@ -345,6 +345,15 @@ button:hover {
     opacity: 1;
 }
 
+#sieger1,
+#sieger2,
+#sieger3,
+#sieger4,
+#insgesamt_versuche {
+    text-align: center;
+    margin: 20px 20px;
+}
+
 #sieger1.nodisplay,
 #sieger2.nodisplay,
 #sieger3.nodisplay,

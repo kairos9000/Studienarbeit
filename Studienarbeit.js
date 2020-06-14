@@ -458,6 +458,13 @@ function endscreen() {
         paarecounter4 - 1,
     ];
 
+    var versuchearray = [
+        versuchecounter1 - 1,
+        versuchecounter2 - 1,
+        versuchecounter3 - 1,
+        versuchecounter4 - 1,
+    ];
+
     var erster;
     var zweiter;
     var dritter;
@@ -535,25 +542,94 @@ function endscreen() {
         document.getElementById("text4"),
     ];
 
+    var platzanzeiger = "1.Platz: ";
+
     if (textarray[erster].value.trim().length === 0) {
-        siegerarray[0].innerHTML = "Spieler " + (erster + 1);
-    } else siegerarray[0].innerHTML = textarray[erster].value;
+        siegerarray[0].innerHTML =
+            platzanzeiger +
+            "Spieler " +
+            (erster + 1) +
+            "<br>" +
+            "Paare: " +
+            vergleichsarray[erster];
+    } else
+        siegerarray[0].innerHTML =
+            platzanzeiger +
+            textarray[erster].value +
+            "<br>" +
+            "Paare: " +
+            vergleichsarray[erster];
 
-    if (textarray[zweiter].value != undefined) {
-        if (textarray[zweiter].value.trim().length === 0) {
-            siegerarray[1].innerHTML = "Spieler " + (zweiter + 1);
-        } else siegerarray[1].innerHTML = textarray[zweiter].value;
+    if (sortingarray[0] != sortingarray[1]) platzanzeiger = "2.Platz: ";
+
+    if (textarray[zweiter].value.trim().length === 0) {
+        siegerarray[1].innerHTML =
+            platzanzeiger +
+            "Spieler " +
+            (zweiter + 1) +
+            "<br>" +
+            "Paare: " +
+            vergleichsarray[zweiter];
+    } else
+        siegerarray[1].innerHTML =
+            platzanzeiger +
+            textarray[zweiter].value +
+            "<br>" +
+            "Paare: " +
+            vergleichsarray[zweiter];
+
+    if (sortingarray[1] != sortingarray[2]) {
+        if (platzanzeiger == "2.Platz: ") platzanzeiger = "3.Platz: ";
+        if (platzanzeiger == "1.Platz: ") platzanzeiger = "2.Platz: ";
+    }
+    if (textarray[dritter].value.trim().length === 0) {
+        siegerarray[2].innerHTML =
+            platzanzeiger +
+            "Spieler " +
+            (dritter + 1) +
+            "<br>" +
+            "Paare: " +
+            vergleichsarray[dritter];
+    } else
+        siegerarray[2].innerHTML =
+            platzanzeiger +
+            textarray[dritter].value +
+            "<br>" +
+            "Paare: " +
+            vergleichsarray[dritter];
+
+    if (sortingarray[2] != sortingarray[3]) {
+        if (platzanzeiger == "3.Platz: ") platzanzeiger = "4.Platz: ";
+        if (platzanzeiger == "2.Platz: ") platzanzeiger = "3.Platz: ";
+        if (platzanzeiger == "1.Platz: ") platzanzeiger = "2.Platz: ";
     }
 
-    if (textarray[dritter].value != undefined) {
-        if (textarray[dritter].value.trim().length === 0) {
-            siegerarray[2].innerHTML = "Spieler " + (dritter + 1);
-        } else siegerarray[2].innerHTML = textarray[dritter].value;
-    }
+    if (textarray[vierter].value.trim().length === 0) {
+        siegerarray[3].innerHTML =
+            platzanzeiger +
+            "Spieler " +
+            (vierter + 1) +
+            "<br>" +
+            "Paare: " +
+            vergleichsarray[vierter];
+    } else
+        siegerarray[3].innerHTML =
+            platzanzeiger +
+            textarray[vierter].value +
+            "<br>" +
+            "Paare: " +
+            vergleichsarray[vierter];
 
-    if (textarray[vierter].value != undefined) {
-        if (textarray[vierter].value.trim().length === 0) {
-            siegerarray[3].innerHTML = "Spieler " + (vierter + 1);
-        } else siegerarray[3].innerHTML = textarray[vierter].value;
-    }
+    let insgesamtversuche = 0;
+    for (let i = 0; i < versuchearray.length; i++)
+        insgesamtversuche += versuchearray[i];
+    document.getElementById("insgesamt_versuche").innerHTML =
+        "Versuche insgesamt: " + insgesamtversuche;
+}
+
+function allspielresetfunction() {
+    document.getElementById("Hauptspiel").classList.remove("verdunkeln");
+    document.getElementById("endscreen").classList.remove("verdunkeln");
+    document.getElementById("siegertabelle").classList.remove("anzeigen");
+    spielresetfunction();
 }
