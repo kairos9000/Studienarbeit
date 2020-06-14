@@ -439,6 +439,8 @@ function endtest() {
     return true;
 }
 
+var siegerarray;
+
 function endscreen() {
     clearInterval(timer);
     document.getElementById("Hauptspiel").classList.add("verdunkeln");
@@ -528,7 +530,7 @@ function endscreen() {
     console.log(dritter);
     console.log(vierter);
 
-    var siegerarray = [
+    siegerarray = [
         document.getElementById("sieger1"),
         document.getElementById("sieger2"),
         document.getElementById("sieger3"),
@@ -543,7 +545,7 @@ function endscreen() {
     ];
 
     var platzanzeiger = "1.Platz: ";
-
+    siegerarray[0].classList.add("erster");
     if (textarray[erster].value.trim().length === 0) {
         siegerarray[0].innerHTML =
             platzanzeiger +
@@ -560,7 +562,12 @@ function endscreen() {
             "Paare: " +
             vergleichsarray[erster];
 
-    if (sortingarray[0] != sortingarray[1]) platzanzeiger = "2.Platz: ";
+    if (sortingarray[0] != sortingarray[1]) {
+        siegerarray[1].classList.add("zweiter");
+        platzanzeiger = "2.Platz: ";
+    }
+    if (sortingarray[0] == sortingarray[1])
+        siegerarray[1].classList.add("erster");
 
     if (textarray[zweiter].value.trim().length === 0) {
         siegerarray[1].innerHTML =
@@ -579,9 +586,19 @@ function endscreen() {
             vergleichsarray[zweiter];
 
     if (sortingarray[1] != sortingarray[2]) {
-        if (platzanzeiger == "2.Platz: ") platzanzeiger = "3.Platz: ";
-        if (platzanzeiger == "1.Platz: ") platzanzeiger = "2.Platz: ";
+        if (platzanzeiger == "2.Platz: ") {
+            siegerarray[2].classList.add("dritter");
+            platzanzeiger = "3.Platz: ";
+        }
+        if (platzanzeiger == "1.Platz: ") {
+            siegerarray[2].classList.add("zweiter");
+            platzanzeiger = "2.Platz: ";
+        }
     }
+    if (sortingarray[1] == sortingarray[2])
+        if (siegerarray[1].classList.contains("erster"))
+            siegerarray[2].classList.add("erster");
+        else siegerarray[2].classList.add("zweiter");
     if (textarray[dritter].value.trim().length === 0) {
         siegerarray[2].innerHTML =
             platzanzeiger +
@@ -600,9 +617,21 @@ function endscreen() {
 
     if (sortingarray[2] != sortingarray[3]) {
         if (platzanzeiger == "3.Platz: ") platzanzeiger = "4.Platz: ";
-        if (platzanzeiger == "2.Platz: ") platzanzeiger = "3.Platz: ";
-        if (platzanzeiger == "1.Platz: ") platzanzeiger = "2.Platz: ";
+        if (platzanzeiger == "2.Platz: ") {
+            siegerarray[3].classList.add("dritter");
+            platzanzeiger = "3.Platz: ";
+        }
+        if (platzanzeiger == "1.Platz: ") {
+            siegerarray[3].classList.add("zweiter");
+            platzanzeiger = "2.Platz: ";
+        }
     }
+    if (sortingarray[2] == sortingarray[3])
+        if (siegerarray[2].classList.contains("erster"))
+            siegerarray[3].classList.add("erster");
+        else if (siegerarray[2].classList.contains("zweiter"))
+            siegerarray[3].classList.add("zweiter");
+        else siegerarray[3].classList.add("zweiter");
 
     if (textarray[vierter].value.trim().length === 0) {
         siegerarray[3].innerHTML =
@@ -631,5 +660,10 @@ function allspielresetfunction() {
     document.getElementById("Hauptspiel").classList.remove("verdunkeln");
     document.getElementById("endscreen").classList.remove("verdunkeln");
     document.getElementById("siegertabelle").classList.remove("anzeigen");
+    for (let i = 0; i < siegerarray.length; i++) {
+        siegerarray[i].classList.remove("erster");
+        siegerarray[i].classList.remove("zweiter");
+        siegerarray[i].classList.remove("dritter");
+    }
     spielresetfunction();
 }

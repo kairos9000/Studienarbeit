@@ -352,6 +352,7 @@ button:hover {
 #insgesamt_versuche {
     text-align: center;
     margin: 20px 20px;
+    transform: scale(0.9);
 }
 
 #sieger1.nodisplay,
@@ -359,4 +360,28 @@ button:hover {
 #sieger3.nodisplay,
 #sieger4.nodisplay {
     display: none;
+}
+
+#sieger1.erster,
+#sieger2.erster,
+#sieger3.erster,
+#sieger4.erster {
+    color: rgb(212, 163, 0);
+    transform: scale(1.1);
+}
+
+#sieger1.zweiter,
+#sieger2.zweiter,
+#sieger3.zweiter,
+#sieger4.zweiter {
+    color: rgb(157, 158, 158);
+    transform: scale(1.05);
+}
+
+#sieger1.dritter,
+#sieger2.dritter,
+#sieger3.dritter,
+#sieger4.dritter {
+    color: rgb(136, 73, 22);
+    transform: scale(1);
 }
