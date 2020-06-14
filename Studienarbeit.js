@@ -74,6 +74,7 @@ function setTextNode(textValue, spieler, playerbox) {
     }
 }
 
+//testing
 function resetfunction() {
     setPlayerFunctions(1);
     document.getElementById("Paarslider").value = 15;
