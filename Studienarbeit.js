@@ -94,7 +94,7 @@ function startfunction() {
     document.getElementById("rahmen").classList.add("schieben");
     document.getElementById("Hauptspiel").classList.add("einfliegen");
 
-    //shuffle(document.getElementById("Paarslider").value);
+    shuffle(document.getElementById("Paarslider").value);
     setTextNode("text1", "Spieler 1", "namenbox1");
     setTextNode("text2", "Spieler 2", "namenbox2");
     setTextNode("text3", "Spieler 3", "namenbox3");
