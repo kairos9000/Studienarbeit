@@ -310,6 +310,10 @@ button:hover {
     transform: rotateY(180deg);
 }
 
+.back-face {
+    color: rgba(0, 0, 0, 0.25);
+}
+
 #spielreset_container {
     text-align: center;
 }
