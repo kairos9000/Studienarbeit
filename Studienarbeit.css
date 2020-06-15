@@ -440,6 +440,10 @@ button:hover {
         margin-bottom: 10px;
     }
 
+    .player {
+        margin: 12px;
+    }
+
     #Hauptspiel {
         padding: 5px;
     }
@@ -467,6 +471,10 @@ button:hover {
     .front-face,
     .back-face {
         padding: 10px;
+    }
+
+    .back-face {
+        color: rgba(0, 0, 0, 0.25);
     }
 
     #siegertabelle {
