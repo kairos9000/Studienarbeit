@@ -6,7 +6,7 @@ body {
 }
 
 #endscreen {
-    position: absolute;
+    position: fixed;
     height: 100vh;
     width: 100vw;
     background-color: black;
@@ -462,6 +462,11 @@ button:hover {
 
     .memory-card {
         margin: 5px 5px;
+    }
+
+    .front-face,
+    .back-face {
+        padding: 10px;
     }
 
     #siegertabelle {
