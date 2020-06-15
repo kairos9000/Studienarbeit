@@ -95,7 +95,7 @@ function startfunction() {
     document.getElementById("rahmen").classList.add("schieben");
     document.getElementById("Hauptspiel").classList.add("einfliegen");
 
-    shuffle(document.getElementById("Paarslider").value);
+    //shuffle(document.getElementById("Paarslider").value);
     setTextNode("text1", "Spieler 1", "namenbox1");
     setTextNode("text2", "Spieler 2", "namenbox2");
     setTextNode("text3", "Spieler 3", "namenbox3");
@@ -214,8 +214,8 @@ function resetBoard() {
 function shuffle(anzahl) {
     console.log(cards);
     for (let i = 0; i < cards.length; i++) {
-        let ramdomPos = Math.floor(Math.random() * anzahl);
-        cards[i].style.order = ramdomPos;
+        let randomPos = Math.floor(Math.random() * anzahl);
+        cards[i].style.order = randomPos;
     }
 }
 
@@ -667,4 +667,14 @@ function allspielresetfunction() {
         siegerarray[i].classList.remove("dritter");
     }
     spielresetfunction();
+}
+
+function randomfunction() {
+    let random_slider_value = Math.floor(Math.random() * 21);
+    random_slider_value += 5;
+    document.getElementById("Paarslider").value = random_slider_value;
+    setPaar();
+    let random_player_amount = Math.floor(Math.random() * 4);
+    random_player_amount++;
+    setPlayerFunctions(random_player_amount);
 }

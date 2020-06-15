@@ -7,8 +7,8 @@ body {
 
 #endscreen {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    height: 100vh;
+    width: 100vw;
     background-color: black;
     opacity: 0;
     z-index: -2;
@@ -117,6 +117,7 @@ button:hover {
     max-width: 90%;
     background-color: #ccc;
     margin: 0 auto;
+    margin-bottom: 5px;
     pointer-events: none;
     transition-property: transform, opacity;
     transform: scale(0.5);
@@ -388,4 +389,83 @@ button:hover {
 #sieger4.dritter {
     color: rgb(136, 73, 22);
     transform: scale(1);
+}
+
+@media only screen and (max-width: 900px) {
+    body {
+        font-family: Arial, sans-serif;
+        font-size: 15px;
+        background-color: #57a;
+        display: flex;
+    }
+
+    button {
+        margin: 1px 1px;
+        padding: 7px 14px;
+    }
+
+    input[type="text"] {
+        font-size: 10px;
+        margin-left: 10px;
+        padding: 1px 2px;
+        border-radius: 2px;
+    }
+
+    #spielpaare_und_anzahl {
+        margin-top: 3px;
+    }
+
+    #Spielpaare {
+        margin: 10px;
+        padding: 40px;
+    }
+
+    #Spieleranzahl {
+        padding: 35px;
+    }
+
+    #Konfiguration {
+        margin-top: 10px;
+
+        padding: 10px;
+    }
+
+    #rahmen {
+        padding: 1px;
+        margin: 10px auto;
+    }
+
+    #menubuttons {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #Hauptspiel {
+        padding: 5px;
+    }
+
+    #Hauptspiel.einfliegen {
+        transform: translateY(1%);
+    }
+
+    #playerbox1,
+    #playerbox2,
+    #playerbox3,
+    #playerbox4 {
+        padding: 5px;
+    }
+
+    #memory-game {
+        margin: 90px auto;
+        margin-left: 10px;
+    }
+
+    .memory-card {
+        margin: 5px 5px;
+    }
+
+    #siegertabelle {
+        padding: 10px;
+        margin: 100px auto;
+    }
 }
