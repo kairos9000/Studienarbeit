@@ -632,7 +632,8 @@ function endscreen() {
             siegerarray[3].classList.add("erster");
         else if (siegerarray[2].classList.contains("zweiter"))
             siegerarray[3].classList.add("zweiter");
-        else siegerarray[3].classList.add("zweiter");
+        else if (siegerarray[2].classList.contains("dritter"))
+            siegerarray[3].classList.add("dritter");
 
     if (textarray[vierter].value.trim().length === 0) {
         siegerarray[3].innerHTML =
