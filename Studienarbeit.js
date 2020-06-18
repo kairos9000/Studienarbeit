@@ -74,7 +74,6 @@ function setTextNode(textValue, spieler, playerbox) {
     }
 }
 
-//testing
 function resetfunction() {
     setPlayerFunctions(1);
     document.getElementById("Paarslider").value = 15;
@@ -149,8 +148,8 @@ function unflipCards() {
     setTimeout(function () {
         setTimeout(function () {
             firstCard.classList.remove("flip");
-            lockBoard = false;
             resetBoard();
+            lockBoard = false;
         }, 100);
 
         secondCard.classList.remove("flip");
@@ -206,7 +205,6 @@ function nextPlayer() {
 
 function resetBoard() {
     hasFlippedCard = false;
-    lockBoard = false;
     firstCard = null;
     secondCard = null;
 }
