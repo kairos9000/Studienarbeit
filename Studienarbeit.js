@@ -212,12 +212,13 @@ function resetBoard() {
 function shuffle(anzahl) {
     console.log(cards);
     for (let i = 0; i < cards.length; i++) {
-        let randomPos = Math.floor(Math.random() * anzahl);
+        let randomPos = Math.floor(Math.random() * anzahl * 2);
         cards[i].style.order = randomPos;
     }
 }
 
 function spielresetfunction() {
+    if (!confirm("Wollen Sie das Spiel wirklich zurücksetzen?")) return;
     versuchecounter1 = 1;
     versuchecounter2 = 1;
     versuchecounter3 = 1;
