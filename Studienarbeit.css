@@ -5,12 +5,22 @@ body {
     display: flex;
 }
 
+/*für alle Elemente im Spiel*/
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/*endscreen zum Anzeigen der Punktetabelle*/
 #endscreen {
     position: fixed;
+    /*füllt kompletten Bildschirm aus*/
     height: 100vh;
     width: 100vw;
     background-color: black;
     opacity: 0;
+    /*liegt zuerst hinter allem anderen damit nicht mit ihm interagiert werden kann*/
     z-index: -2;
     pointer-events: none;
     transition-property: opacity;
@@ -18,67 +28,83 @@ body {
 }
 
 #endscreen.verdunkeln {
+    /*wird angezeigt und in den Vordergrund geschoben*/
     opacity: 0.5;
     z-index: 0;
 }
 
-button {
-    margin: 10px 10px;
-    padding: 10px 16px;
-    border: solid 2px black;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: all 0.4s;
-    font-size: 1em;
-    outline: none;
+/*zeigt die Plätze der Sieger tabellarisch an, wenn Spiel beendet*/
+#siegertabelle {
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    opacity: 0;
+    position: absolute;
+    z-index: -2;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    margin: 200px auto;
+    background-color: #ccc;
+    width: 800px;
+    max-width: 90%;
+    transition-property: opacity;
+    transition-duration: 1s;
 }
 
-input[type="text"] {
-    font-size: 16px;
-    margin-left: 10px;
-    border: solid black 2px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    outline: none;
-    transition: border-color 0.4s;
+/*wird mit endscreen angezeigt*/
+#siegertabelle.anzeigen {
+    z-index: 1;
+    opacity: 1;
 }
 
-input:focus {
-    border-color: blue;
+/*damit divs der Plätze und der Versuche in der Mitte sind*/
+#sieger1,
+#sieger2,
+#sieger3,
+#sieger4,
+#insgesamt_versuche {
+    text-align: center;
+    margin: 20px 20px;
+    transform: scale(0.9);
 }
 
-button:hover {
+/*falls Spieler nicht ausgewählt war => nicht angezeigt*/
+#sieger1.nodisplay,
+#sieger2.nodisplay,
+#sieger3.nodisplay,
+#sieger4.nodisplay {
+    display: none;
+}
+
+/*erster Platz wird golden und leicht größer*/
+#sieger1.erster,
+#sieger2.erster,
+#sieger3.erster,
+#sieger4.erster {
+    color: rgb(212, 163, 0);
     transform: scale(1.1);
 }
 
-#spielreset,
-#resetknopf,
-#randomknopf {
-    background-color: #35919d;
+/*zweiter Platz wird silber und kleiner*/
+#sieger1.zweiter,
+#sieger2.zweiter,
+#sieger3.zweiter,
+#sieger4.zweiter {
+    color: rgb(157, 158, 158);
+    transform: scale(1.05);
 }
 
-#spielreset:hover,
-#resetknopf:hover,
-#randomknopf:hover {
-    background-color: #2baabb;
+/*dritter Platz wird bronze und noch kleiner*/
+#sieger1.dritter,
+#sieger2.dritter,
+#sieger3.dritter,
+#sieger4.dritter {
+    color: rgb(136, 73, 22);
+    transform: scale(1);
+    /*vierter Platz bleibt schwarz und ist am kleinsten*/
 }
 
-#startknopf {
-    background-color: #b28035;
-}
-
-#startknopf:hover {
-    background-color: #da5;
-}
-
-#spielpaare_und_anzahl {
-    margin-top: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
+/*Rahmen der Konfiguration des Spielfeldes enthält*/
 #rahmen {
     position: absolute;
     z-index: 0;
@@ -96,6 +122,7 @@ button:hover {
     transform-origin: 50% 0%;
 }
 
+/*Animation wenn Startknopf gedrückt wird*/
 #rahmen.schieben {
     opacity: 0;
     transform: scale(0.5) translateX(-100%);
@@ -103,43 +130,7 @@ button:hover {
     z-index: -1;
 }
 
-#menubuttons {
-    margin-top: 30px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-#Hauptspiel {
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    border-radius: 20px;
-    width: 1100px;
-    max-width: 90%;
-    background-color: #ccc;
-    margin: 0 auto;
-    margin-bottom: 5px;
-    pointer-events: none;
-    transition-property: transform, opacity;
-    transform: scale(0.5);
-    opacity: 0;
-    transition-duration: 1s;
-    transform-origin: 50% 0%;
-    position: relative;
-    z-index: -1;
-}
-
-#Hauptspiel.einfliegen {
-    opacity: 1;
-    transform: scale(1);
-    pointer-events: auto;
-    transform: translateY(5%);
-    z-index: 0;
-}
-
-#Hauptspiel.verdunkeln {
-    z-index: -1;
-}
-
+/*div das den Label "Memory-Spiel" enthält*/
 #Konfiguration {
     text-align: center;
     border: solid 1px black;
@@ -152,6 +143,17 @@ button:hover {
     width: 50%;
 }
 
+/*div das das div für den Slider und das div für die Spieler Anzahl enthält damit beide divs nebeneinander
+angezeigt werden können*/
+#spielpaare_und_anzahl {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/*div das den eigentlichen Slider enthält*/
 #Spielpaare {
     box-shadow: 4px 8px 8px rgba(0, 0, 0, 0.3);
     margin: 20px;
@@ -160,6 +162,7 @@ button:hover {
     background-color: #35919d;
 }
 
+/*div das Knöpfe zum Einstellen der Spieleranzahl enthält*/
 #Spieleranzahl {
     box-shadow: 4px 8px 8px rgba(0, 0, 0, 0.3);
     text-align: center;
@@ -168,30 +171,136 @@ button:hover {
     padding: 50px;
 }
 
+/*Slider zum Einstellen der Kartenpaare*/
 #Paarslider {
     cursor: pointer;
 }
 
+/*div das die Textfelder zum Angeben der Spielernamen enthält*/
 #Playernamediv {
     text-align: center;
 }
 
+/*Farbe von Spieler 1*/
 #select1 {
     background-color: #81c784;
 }
 
+/*Farbe von Spieler 2*/
 #select2 {
     background-color: #ba68c8;
 }
 
+/*Farbe von Spieler 3*/
 #select3 {
     background-color: #7986cb;
 }
 
+/*Farbe von Spieler 4*/
 #select4 {
     background-color: #4db6ac;
 }
 
+/*für Buttons des Konfigurationsmenüs*/
+#menubuttons {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/*gilt für alle Button Elemente*/
+button {
+    margin: 10px 10px;
+    padding: 10px 16px;
+    border: solid 2px black;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.4s;
+    font-size: 1em;
+    outline: none;
+}
+
+/*Buttons werden vergrößert, wenn mit der Maus darüber gehovert wird*/
+button:hover {
+    transform: scale(1.1);
+}
+
+/*Knöpfe im Startbildschirm*/
+#spielreset,
+#resetknopf,
+#randomknopf {
+    background-color: #35919d;
+}
+
+/*Knöpfe ändern Farbe, wenn mit der Maus darüber gehovert wird*/
+#spielreset:hover,
+#resetknopf:hover,
+#randomknopf:hover {
+    background-color: #2baabb;
+}
+
+/*Startknopf hat andere Farbe*/
+#startknopf {
+    background-color: #b28035;
+}
+
+#startknopf:hover {
+    background-color: #da5;
+}
+
+/*nur für Textfelder*/
+input[type="text"] {
+    font-size: 16px;
+    margin-left: 10px;
+    border: solid black 2px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.4s;
+}
+
+/*wenn Textfeld ausgewählt wird, ändert sich die Farbe des Randes*/
+input:focus {
+    border-color: blue;
+}
+
+/*Spielfeld*/
+#Hauptspiel {
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 20px;
+    width: 1100px;
+    /*falls Breite des Bildschirms zu klein wird soll das Spielfeld 90% der gesamten Breite ausfüllen*/
+    max-width: 90%;
+    background-color: #ccc;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    pointer-events: none;
+    transition-property: transform, opacity;
+    transform: scale(0.5);
+    opacity: 0;
+    transition-duration: 1s;
+    transform-origin: 50% 0%;
+    /*damit das Spielfeld nicht mit Rahmen stört*/
+    position: relative;
+    z-index: -1;
+}
+
+/*Animation bei Drücken des Startknopfes*/
+#Hauptspiel.einfliegen {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    transform: translateY(5%);
+    z-index: 0;
+}
+
+/*wenn Spiel beendet wird, rückt Spielfeld in den Hintergrund damit endscreen im Vordergrund ist*/
+#Hauptspiel.verdunkeln {
+    z-index: -1;
+}
+
+/*Klasse für Textfelder zum Eingeben der Spielernamen und für die Boxen im Spielfeld mit den Spielern*/
 .player {
     margin: 20px;
     transition-property: opacity, transform, box-shadow;
@@ -199,15 +308,18 @@ button:hover {
     transform-origin: 50% 0%;
 }
 
+/*um die einzelnen Boxen in den Ecken positionieren zu können*/
 #Hauptspiel .player {
     position: absolute;
 }
 
+/*wird hinzugefügt falls Box nicht ausgewählt worden ist im Startbildschirm*/
 .player.hidden {
     opacity: 0;
     transform: scale(0.5) translateY(-100%);
 }
 
+/*zum Einfärben der einzelnen Textfelder in der Konfiguration und zur DOM Manipulation mit JS für Einfügen des Spielernamens in die div*/
 #text1 {
     background-color: #81c784;
 }
@@ -224,6 +336,7 @@ button:hover {
     background-color: #4db6ac;
 }
 
+/*zum Positionieren der Boxen auf dem Spielfeld und DOM Manipulation zum Einfügen des Namens der im entsprechenden Textfeld eingegeben wurde*/
 #playerbox1 {
     background-color: #81c784;
     border-radius: 5px;
@@ -256,18 +369,15 @@ button:hover {
     bottom: 0;
 }
 
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
+/*id zum Befüllen mit Karten*/
 #memory-game {
     margin: 110px 80px;
     display: flex;
     flex-wrap: wrap;
     perspective: 1000px;
 }
+
+/*Klasse die die Vorder- und Rückseite der Karten bekommt*/
 .memory-card {
     cursor: pointer;
     outline: none;
@@ -276,6 +386,7 @@ button:hover {
     transform: scale(1);
     transition: transform 0.2s, box-shadow 0.5s;
     transform-style: preserve-3d;
+    /*damit Emojis auf den Karten nicht selected werden können mit der Maus*/
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -284,24 +395,29 @@ button:hover {
     user-select: none;
 }
 
+/*wenn Karte angeklickt wird wird sie kurz kleiner*/
 .memory-card:active {
     transform: scale(0.97);
 }
 
+/*wenn über die Karte gehovert wird, wird sie größer*/
 .memory-card:hover {
     transform: scale(1.1);
     box-shadow: 0 0 16px rgba(251, 255, 0, 0.788);
 }
 
+/*wird zur classList hinzugefügt wenn die Karte angeklickt wird*/
 .memory-card.flip {
     -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
 
+/*wird zur classList hinzugefügt wenn die Karte nicht im Spiel sein soll => durch Slider weniger Karten ausgewählt*/
 .memory-card.display {
     display: none;
 }
 
+/*Vorder- und Rückseite der Karte*/
 .front-face,
 .back-face {
     outline: none;
@@ -321,82 +437,23 @@ button:hover {
     color: rgba(0, 0, 0, 0.25);
 }
 
+/*div damit der reset Knopf in der Mitte ist*/
 #spielreset_container {
     text-align: center;
 }
 
+/*div damit der Timer in der Mitte ist*/
 #timer {
     text-align: center;
 }
 
+/*wird zur classList hinzugefügt, wenn Spieler an der Reihe ist*/
 .player.hervorheben {
     transform: scale(1.1);
     box-shadow: 0 0 16px rgba(251, 255, 0, 0.788);
 }
 
-#siegertabelle {
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
-    opacity: 0;
-    position: absolute;
-    z-index: -2;
-    left: 0;
-    right: 0;
-    padding: 20px;
-    margin: 200px auto;
-    background-color: #ccc;
-    width: 800px;
-    max-width: 90%;
-    transition-property: opacity;
-    transition-duration: 1s;
-}
-
-#siegertabelle.anzeigen {
-    z-index: 1;
-    opacity: 1;
-}
-
-#sieger1,
-#sieger2,
-#sieger3,
-#sieger4,
-#insgesamt_versuche {
-    text-align: center;
-    margin: 20px 20px;
-    transform: scale(0.9);
-}
-
-#sieger1.nodisplay,
-#sieger2.nodisplay,
-#sieger3.nodisplay,
-#sieger4.nodisplay {
-    display: none;
-}
-
-#sieger1.erster,
-#sieger2.erster,
-#sieger3.erster,
-#sieger4.erster {
-    color: rgb(212, 163, 0);
-    transform: scale(1.1);
-}
-
-#sieger1.zweiter,
-#sieger2.zweiter,
-#sieger3.zweiter,
-#sieger4.zweiter {
-    color: rgb(157, 158, 158);
-    transform: scale(1.05);
-}
-
-#sieger1.dritter,
-#sieger2.dritter,
-#sieger3.dritter,
-#sieger4.dritter {
-    color: rgb(136, 73, 22);
-    transform: scale(1);
-}
-
+/*media query für Bildschirme unter 900px*/
 @media only screen and (max-width: 900px) {
     body {
         font-family: Arial, sans-serif;
@@ -405,6 +462,7 @@ button:hover {
         display: flex;
     }
 
+    /*margins und paddings passen sich dem kleinen Bildschirm an*/
     button {
         margin: 1px 1px;
         padding: 7px 14px;
@@ -454,6 +512,7 @@ button:hover {
         padding: 5px;
     }
 
+    /*muss leicht nach unten transformiert werden damit keine scroll Balken am Seitenrand entstehen*/
     #Hauptspiel.einfliegen {
         transform: translateY(1%);
     }

@@ -1,8 +1,38 @@
-setPlayerFunctions(1);
+//Variablen die Global sein müssen
 var defaulthervorheben = true;
+var totalAmount;
+var cards;
+let hasFlippedCard = false;
+let firstCard, secondCard;
+let lockBoard = false;
+var versuchecounter1 = 1;
+var versuchecounter2 = 1;
+var versuchecounter3 = 1;
+var versuchecounter4 = 1;
+var paarecounter1 = 1;
+var paarecounter2 = 1;
+var paarecounter3 = 1;
+var paarecounter4 = 1;
+var vergleich = 0;
+var siegerarray;
+var players = [
+    document.getElementById("playerbox1"),
+    document.getElementById("playerbox2"),
+    document.getElementById("playerbox3"),
+    document.getElementById("playerbox4"),
+];
+var emoji = 13;
+var minutesLabel = document.getElementById("minutes");
+var secondsLabel = document.getElementById("seconds");
+var totalSeconds = 0;
+var timer = setInterval(setTime, 1000);
+clearInterval(timer);
+
+//Alles Standard auf 1 Spieler setzen am Anfang
+setPlayerFunctions(1);
+//1. Spieler wird hervorgehoben, dass er an der Reihe ist auf dem Spielfeld
 nextPlayer();
 document.getElementById("Hauptspiel").classList.remove("einfliegen");
-var totalAmount;
 document.getElementById("select1").addEventListener("click", myfunction);
 document.getElementById("select2").addEventListener("click", myfunction);
 document.getElementById("select3").addEventListener("click", myfunction);
@@ -15,8 +45,8 @@ function setPlayerFunctions(amount) {
 }
 
 function setPaar() {
-    var slider = document.getElementById("Paarslider").value;
-    var output = document.getElementById("output");
+    let slider = document.getElementById("Paarslider").value;
+    let output = document.getElementById("output");
     output.innerHTML = slider;
 }
 
@@ -84,7 +114,6 @@ function resetfunction() {
     document.getElementById("text4").value = "";
 }
 
-var cards;
 function startfunction() {
     kartensetzen(document.getElementById("Paarslider").value);
     cards = document.querySelectorAll(".memory-card");
@@ -103,9 +132,53 @@ function startfunction() {
     timer = setInterval(setTime, 1000);
 }
 
-let hasFlippedCard = false;
-let firstCard, secondCard;
-let lockBoard = false;
+function randomfunction() {
+    let random_slider_value = Math.floor(Math.random() * 21);
+    random_slider_value += 5;
+    document.getElementById("Paarslider").value = random_slider_value;
+    setPaar();
+    let random_player_amount = Math.floor(Math.random() * 4);
+    random_player_amount++;
+    setPlayerFunctions(random_player_amount);
+}
+
+function kartensetzen(amount) {
+    for (let i = 1; i <= amount; i++) {
+        let karte1 = document.createElement("div");
+        karte1.classList.add("memory-card");
+        karte1.setAttribute("value", i);
+
+        let frontface1 = document.createElement("div");
+        frontface1.setAttribute("class", "front-face");
+        frontface1.innerHTML = "&#1285" + emoji + ";";
+
+        let backface1 = document.createElement("div");
+        backface1.setAttribute("class", "back-face");
+        backface1.innerHTML = "&#128512;";
+
+        karte1.appendChild(frontface1);
+        karte1.appendChild(backface1);
+        document.getElementById("memory-game").appendChild(karte1);
+
+        let karte2 = document.createElement("div");
+        karte2.classList.add("memory-card");
+        karte2.setAttribute("value", i);
+
+        let frontface2 = document.createElement("div");
+        frontface2.setAttribute("class", "front-face");
+        frontface2.innerHTML = "&#1285" + emoji + ";";
+
+        let backface2 = document.createElement("div");
+        backface2.setAttribute("class", "back-face");
+        backface2.innerHTML = "&#128512;";
+
+        karte2.appendChild(frontface2);
+        karte2.appendChild(backface2);
+        document.getElementById("memory-game").appendChild(karte2);
+
+        emoji++;
+    }
+}
 
 function flipCard() {
     if (lockBoard) return;
@@ -128,14 +201,101 @@ function flipCard() {
     checkForMatch();
 }
 
-var versuchecounter1 = 1;
-var versuchecounter2 = 1;
-var versuchecounter3 = 1;
-var versuchecounter4 = 1;
-var paarecounter1 = 1;
-var paarecounter2 = 1;
-var paarecounter3 = 1;
-var paarecounter4 = 1;
+function checkForMatch() {
+    if (firstCard.getAttribute("value") === secondCard.getAttribute("value")) {
+        disableCards();
+        if (
+            document
+                .getElementById("playerbox1")
+                .classList.contains("hervorheben")
+        ) {
+            document.getElementById("versuchebox1").innerHTML =
+                "Versuche: " + versuchecounter1;
+            versuchecounter1++;
+            document.getElementById("paarebox1").innerHTML =
+                "Paare: " + paarecounter1;
+            paarecounter1++;
+        }
+        if (
+            document
+                .getElementById("playerbox2")
+                .classList.contains("hervorheben")
+        ) {
+            document.getElementById("versuchebox2").innerHTML =
+                "Versuche: " + versuchecounter2;
+            versuchecounter2++;
+            document.getElementById("paarebox2").innerHTML =
+                "Paare: " + paarecounter2;
+            paarecounter2++;
+        }
+        if (
+            document
+                .getElementById("playerbox3")
+                .classList.contains("hervorheben")
+        ) {
+            document.getElementById("versuchebox3").innerHTML =
+                "Versuche: " + versuchecounter3;
+            versuchecounter3++;
+            document.getElementById("paarebox3").innerHTML =
+                "Paare: " + paarecounter3;
+            paarecounter3++;
+        }
+        if (
+            document
+                .getElementById("playerbox4")
+                .classList.contains("hervorheben")
+        ) {
+            document.getElementById("versuchebox4").innerHTML =
+                "Versuche: " + versuchecounter4;
+            versuchecounter4++;
+            document.getElementById("paarebox4").innerHTML =
+                "Paare: " + paarecounter4;
+            paarecounter4++;
+        }
+
+        console.log(endtest());
+        if (endtest()) {
+            endscreen();
+        }
+
+        return;
+    }
+
+    unflipCards();
+
+    if (
+        document.getElementById("playerbox1").classList.contains("hervorheben")
+    ) {
+        document.getElementById("versuchebox1").innerHTML =
+            "Versuche: " + versuchecounter1;
+        versuchecounter1++;
+    }
+    if (
+        document.getElementById("playerbox2").classList.contains("hervorheben")
+    ) {
+        document.getElementById("versuchebox2").innerHTML =
+            "Versuche: " + versuchecounter2;
+        versuchecounter2++;
+    }
+    if (
+        document.getElementById("playerbox3").classList.contains("hervorheben")
+    ) {
+        document.getElementById("versuchebox3").innerHTML =
+            "Versuche: " + versuchecounter3;
+        versuchecounter3++;
+    }
+    if (
+        document.getElementById("playerbox4").classList.contains("hervorheben")
+    ) {
+        document.getElementById("versuchebox4").innerHTML =
+            "Versuche: " + versuchecounter4;
+        versuchecounter4++;
+    }
+
+    setTimeout(function () {
+        nextPlayer();
+    }, 1200);
+}
 
 function disableCards() {
     firstCard.removeEventListener("click", flipCard);
@@ -155,15 +315,6 @@ function unflipCards() {
         secondCard.classList.remove("flip");
     }, 1000);
 }
-
-var players = [
-    document.getElementById("playerbox1"),
-    document.getElementById("playerbox2"),
-    document.getElementById("playerbox3"),
-    document.getElementById("playerbox4"),
-];
-
-var vergleich = 0;
 
 function myfunction() {
     totalAmount = this.value;
@@ -273,108 +424,6 @@ function spielresetfunction() {
     secondsLabel.innerHTML = "00";
 }
 
-function checkForMatch() {
-    if (firstCard.getAttribute("value") === secondCard.getAttribute("value")) {
-        disableCards();
-        if (
-            document
-                .getElementById("playerbox1")
-                .classList.contains("hervorheben")
-        ) {
-            document.getElementById("versuchebox1").innerHTML =
-                "Versuche: " + versuchecounter1;
-            versuchecounter1++;
-            document.getElementById("paarebox1").innerHTML =
-                "Paare: " + paarecounter1;
-            paarecounter1++;
-        }
-        if (
-            document
-                .getElementById("playerbox2")
-                .classList.contains("hervorheben")
-        ) {
-            document.getElementById("versuchebox2").innerHTML =
-                "Versuche: " + versuchecounter2;
-            versuchecounter2++;
-            document.getElementById("paarebox2").innerHTML =
-                "Paare: " + paarecounter2;
-            paarecounter2++;
-        }
-        if (
-            document
-                .getElementById("playerbox3")
-                .classList.contains("hervorheben")
-        ) {
-            document.getElementById("versuchebox3").innerHTML =
-                "Versuche: " + versuchecounter3;
-            versuchecounter3++;
-            document.getElementById("paarebox3").innerHTML =
-                "Paare: " + paarecounter3;
-            paarecounter3++;
-        }
-        if (
-            document
-                .getElementById("playerbox4")
-                .classList.contains("hervorheben")
-        ) {
-            document.getElementById("versuchebox4").innerHTML =
-                "Versuche: " + versuchecounter4;
-            versuchecounter4++;
-            document.getElementById("paarebox4").innerHTML =
-                "Paare: " + paarecounter4;
-            paarecounter4++;
-        }
-
-        console.log(endtest());
-        if (endtest()) {
-            endscreen();
-        }
-
-        return;
-    }
-
-    unflipCards();
-
-    if (
-        document.getElementById("playerbox1").classList.contains("hervorheben")
-    ) {
-        document.getElementById("versuchebox1").innerHTML =
-            "Versuche: " + versuchecounter1;
-        versuchecounter1++;
-    }
-    if (
-        document.getElementById("playerbox2").classList.contains("hervorheben")
-    ) {
-        document.getElementById("versuchebox2").innerHTML =
-            "Versuche: " + versuchecounter2;
-        versuchecounter2++;
-    }
-    if (
-        document.getElementById("playerbox3").classList.contains("hervorheben")
-    ) {
-        document.getElementById("versuchebox3").innerHTML =
-            "Versuche: " + versuchecounter3;
-        versuchecounter3++;
-    }
-    if (
-        document.getElementById("playerbox4").classList.contains("hervorheben")
-    ) {
-        document.getElementById("versuchebox4").innerHTML =
-            "Versuche: " + versuchecounter4;
-        versuchecounter4++;
-    }
-
-    setTimeout(function () {
-        nextPlayer();
-    }, 1200);
-}
-
-var minutesLabel = document.getElementById("minutes");
-var secondsLabel = document.getElementById("seconds");
-var totalSeconds = 0;
-var timer = setInterval(setTime, 1000);
-clearInterval(timer);
-
 function setTime() {
     ++totalSeconds;
     secondsLabel.innerHTML = pad(totalSeconds % 60);
@@ -382,7 +431,7 @@ function setTime() {
 }
 
 function pad(val) {
-    var valString = val + "";
+    let valString = val + "";
     if (valString.length < 2) {
         return "0" + valString;
     } else {
@@ -390,56 +439,14 @@ function pad(val) {
     }
 }
 
-var emoji = 13;
-
-function kartensetzen(amount) {
-    for (var i = 1; i <= amount; i++) {
-        var karte1 = document.createElement("div");
-        karte1.classList.add("memory-card");
-        karte1.setAttribute("value", i);
-
-        var frontface1 = document.createElement("div");
-        frontface1.setAttribute("class", "front-face");
-        frontface1.innerHTML = "&#1285" + emoji + ";";
-
-        var backface1 = document.createElement("div");
-        backface1.setAttribute("class", "back-face");
-        backface1.innerHTML = "&#128512;";
-
-        karte1.appendChild(frontface1);
-        karte1.appendChild(backface1);
-        document.getElementById("memory-game").appendChild(karte1);
-
-        var karte2 = document.createElement("div");
-        karte2.classList.add("memory-card");
-        karte2.setAttribute("value", i);
-
-        var frontface2 = document.createElement("div");
-        frontface2.setAttribute("class", "front-face");
-        frontface2.innerHTML = "&#1285" + emoji + ";";
-
-        var backface2 = document.createElement("div");
-        backface2.setAttribute("class", "back-face");
-        backface2.innerHTML = "&#128512;";
-
-        karte2.appendChild(frontface2);
-        karte2.appendChild(backface2);
-        document.getElementById("memory-game").appendChild(karte2);
-
-        emoji++;
-    }
-}
-
 function endtest() {
-    for (var i = 0; i < cards.length; i++) {
+    for (let i = 0; i < cards.length; i++) {
         if (!cards[i].classList.contains("flip")) {
             return false;
         }
     }
     return true;
 }
-
-var siegerarray;
 
 function endscreen() {
     clearInterval(timer);
@@ -472,9 +479,14 @@ function endscreen() {
     var dritter;
     var vierter;
 
+    var lock1 = true;
+    var lock2 = true;
+    var lock3 = true;
+    var lock4 = true;
+
     let bubblesort = 0;
     while (bubblesort <= 3) {
-        for (var i = 0; i < sortingarray.length; i++) {
+        for (let i = 0; i < sortingarray.length; i++) {
             if (sortingarray[i] < sortingarray[i + 1]) {
                 let tmp = sortingarray[i + 1];
                 sortingarray[i + 1] = sortingarray[i];
@@ -484,11 +496,6 @@ function endscreen() {
 
         bubblesort++;
     }
-
-    var lock1 = true;
-    var lock2 = true;
-    var lock3 = true;
-    var lock4 = true;
 
     for (var i = 0; i < vergleichsarray.length; i++) {
         if (lock1) {
@@ -658,6 +665,7 @@ function endscreen() {
 }
 
 function allspielresetfunction() {
+    spielresetfunction();
     document.getElementById("Hauptspiel").classList.remove("verdunkeln");
     document.getElementById("endscreen").classList.remove("verdunkeln");
     document.getElementById("siegertabelle").classList.remove("anzeigen");
@@ -666,15 +674,4 @@ function allspielresetfunction() {
         siegerarray[i].classList.remove("zweiter");
         siegerarray[i].classList.remove("dritter");
     }
-    spielresetfunction();
-}
-
-function randomfunction() {
-    let random_slider_value = Math.floor(Math.random() * 21);
-    random_slider_value += 5;
-    document.getElementById("Paarslider").value = random_slider_value;
-    setPaar();
-    let random_player_amount = Math.floor(Math.random() * 4);
-    random_player_amount++;
-    setPlayerFunctions(random_player_amount);
 }
