@@ -1,10 +1,18 @@
 //Variablen die Global sein müssen
+//sorgt dafür dass Spieler 1 immer am Anfang an der Reihe ist
 var defaulthervorheben = true;
+//Anzahl an Spielern, um sie mit einer Schleife durchzugehen und den Spieler
+//der an der Reihe ist zu wechseln
 var totalAmount;
+//Array das alle Karten speichert
 var cards;
+//testet ob erste oder zweite Karte gedreht wurde
 let hasFlippedCard = false;
+//Variablen für erste und zweite Karte
 let firstCard, secondCard;
+//sperr Variable, damit während der Animation des Umdrehens keine Karten angeklickt werden können
 let lockBoard = false;
+//zähler für die einzelnen Spieler
 var versuchecounter1 = 1;
 var versuchecounter2 = 1;
 var versuchecounter3 = 1;
@@ -14,6 +22,7 @@ var paarecounter2 = 1;
 var paarecounter3 = 1;
 var paarecounter4 = 1;
 var vergleich = 0;
+//Array in der die Spieler nach ihren Punkten der Reihe nach geschrieben werden
 var siegerarray;
 var players = [
     document.getElementById("playerbox1"),
@@ -21,10 +30,13 @@ var players = [
     document.getElementById("playerbox3"),
     document.getElementById("playerbox4"),
 ];
+//Variable für Emojis auf den Karten
 var emoji = 13;
+//für Timer-function
 var minutesLabel = document.getElementById("minutes");
 var secondsLabel = document.getElementById("seconds");
 var totalSeconds = 0;
+//Timer wird gesetzt und danach sofort wieder gestoppt
 var timer = setInterval(setTime, 1000);
 clearInterval(timer);
 
@@ -32,30 +44,32 @@ clearInterval(timer);
 setPlayerFunctions(1);
 //1. Spieler wird hervorgehoben, dass er an der Reihe ist auf dem Spielfeld
 nextPlayer();
+//Animation zum Einfliegen wird Standardmäßig entfernt, damit sie bei
+//drücken des Star Knopfes ausgeführt werden kann
 document.getElementById("Hauptspiel").classList.remove("einfliegen");
+//fügt EventListener zu den Knöpfen zum Einstellen der Spieleranzahl hinzu,
+//damit die Variable totalAmount sich die Zahl der Spieler im Spiel merkt
 document.getElementById("select1").addEventListener("click", myfunction);
 document.getElementById("select2").addEventListener("click", myfunction);
 document.getElementById("select3").addEventListener("click", myfunction);
 document.getElementById("select4").addEventListener("click", myfunction);
 
+//Textfelder im Hauptbildschirm, Spieler Boxen auf dem Spielfeld und
+//div's im endscreen werden je nach Bedarf sichtbar oder unsichtbar gemacht
 function setPlayerFunctions(amount) {
     setPlayerBoxesVisible(amount);
     setPlayersVisible(amount);
     setWinnerBoxesVisible(amount);
 }
 
-function setPaar() {
-    let slider = document.getElementById("Paarslider").value;
-    let output = document.getElementById("output");
-    output.innerHTML = slider;
-}
-
+//Abfrage welche Textfelder sichtbar gemacht werden sollen
 function setPlayersVisible(amount) {
     setPlayerVisible(amount >= 2, document.getElementById("Player2"));
     setPlayerVisible(amount >= 3, document.getElementById("Player3"));
     setPlayerVisible(amount >= 4, document.getElementById("Player4"));
 }
 
+//gefragt Textfelder werden über display: none unsichtbar gemacht
 function setPlayerVisible(visible, nametag) {
     if (visible) {
         nametag.classList.remove("hidden");
@@ -64,6 +78,7 @@ function setPlayerVisible(visible, nametag) {
     }
 }
 
+//dasselbe wie bei setPlayersVisible
 function setPlayerBoxesVisible(amount) {
     setPlayerBoxVisible(amount >= 2, document.getElementById("playerbox2"));
     setPlayerBoxVisible(amount >= 3, document.getElementById("playerbox3"));
@@ -78,6 +93,7 @@ function setPlayerBoxVisible(visible, playerbox) {
     }
 }
 
+//dasselbe wie bei setPlayersVisible
 function setWinnerBoxesVisible(amount) {
     setWinnerBoxVisible(amount >= 2, document.getElementById("sieger2"));
     setWinnerBoxVisible(amount >= 3, document.getElementById("sieger3"));
@@ -92,6 +108,16 @@ function setWinnerBoxVisible(visible, playerbox) {
     }
 }
 
+//sorgt dafür, dass der Wert des Sliders darunter ausgegeben wird
+function setPaar() {
+    let slider = document.getElementById("Paarslider").value;
+    let output = document.getElementById("output");
+    output.innerHTML = slider;
+}
+
+//setzt die TextNodes, die in die jeweiligen Textfelder eingegeben wurden,
+//in die Spieler Boxen auf dem Spielfeld des jeweiligen Spielers
+//falls nichts eingegeben wurde wird ein Standard Name gewählt
 function setTextNode(textValue, spieler, playerbox) {
     let textnode = document.createTextNode(
         document.getElementById(textValue).value
@@ -104,6 +130,8 @@ function setTextNode(textValue, spieler, playerbox) {
     }
 }
 
+//reset im Startbildschirm => setzt die Textfelder wieder auf 1, setzt Slider auf 15
+//und löscht alle eingegebenen Namen
 function resetfunction() {
     setPlayerFunctions(1);
     document.getElementById("Paarslider").value = 15;
@@ -114,6 +142,13 @@ function resetfunction() {
     document.getElementById("text4").value = "";
 }
 
+//Startet das Hauptspiel => setzt den doppelten Wert des Paarsliders an Karten,
+//speichert Karten in einem Array ab,
+//fügt zu jeder Karte einen EventListener hinzu, damit die Karten umgedreht werden können beim anklicken,
+//spielt Animationen ab, die Startbildschirm verschwinden und Spielfeld erscheinen lassen,
+//mischt Karten,
+//setzt die TextNodes der Spieler Boxen auf ihre Namen
+//und startet Timer
 function startfunction() {
     kartensetzen(document.getElementById("Paarslider").value);
     cards = document.querySelectorAll(".memory-card");
@@ -132,6 +167,7 @@ function startfunction() {
     timer = setInterval(setTime, 1000);
 }
 
+//wählt Random Werte für Slider und Anzahl der Spieler aus
 function randomfunction() {
     let random_slider_value = Math.floor(Math.random() * 21);
     random_slider_value += 5;
@@ -142,18 +178,27 @@ function randomfunction() {
     setPlayerFunctions(random_player_amount);
 }
 
+//geht for-Schleife bis zum Wert des Sliders durch
+//und setzt bei jedem Durchgang zwei Karten, die jeweils
+//Vorder- und Rückseite mit Emojis haben
 function kartensetzen(amount) {
     for (let i = 1; i <= amount; i++) {
         let karte1 = document.createElement("div");
+        //jede Karte bekommt diese Klasse damit sie in das Array Karten aufgenommen wird
         karte1.classList.add("memory-card");
+        //damit die Karten verglichen werden können
         karte1.setAttribute("value", i);
 
         let frontface1 = document.createElement("div");
+        //Vorderseite
         frontface1.setAttribute("class", "front-face");
+        //emoji wird gesetzt
         frontface1.innerHTML = "&#1285" + emoji + ";";
 
         let backface1 = document.createElement("div");
+        //Rückseite
         backface1.setAttribute("class", "back-face");
+        //hier wird immer derselbe emoji gesetzt
         backface1.innerHTML = "&#128512;";
 
         karte1.appendChild(frontface1);
@@ -176,6 +221,7 @@ function kartensetzen(amount) {
         karte2.appendChild(backface2);
         document.getElementById("memory-game").appendChild(karte2);
 
+        //bei jedem Durchgang kommt ein anderer emoji auf die Karten
         emoji++;
     }
 }
@@ -204,6 +250,7 @@ function flipCard() {
 function checkForMatch() {
     if (firstCard.getAttribute("value") === secondCard.getAttribute("value")) {
         disableCards();
+
         if (
             document
                 .getElementById("playerbox1")
@@ -300,6 +347,8 @@ function checkForMatch() {
 function disableCards() {
     firstCard.removeEventListener("click", flipCard);
     secondCard.removeEventListener("click", flipCard);
+    firstCard.classList.add("gefunden");
+    secondCard.classList.add("gefunden");
     resetBoard();
 }
 
