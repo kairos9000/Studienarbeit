@@ -142,28 +142,34 @@ function resetfunction() {
     document.getElementById("text4").value = "";
 }
 
-//Startet das Hauptspiel => setzt den doppelten Wert des Paarsliders an Karten,
-//speichert Karten in einem Array ab,
-//fügt zu jeder Karte einen EventListener hinzu, damit die Karten umgedreht werden können beim anklicken,
-//spielt Animationen ab, die Startbildschirm verschwinden und Spielfeld erscheinen lassen,
-//mischt Karten,
-//setzt die TextNodes der Spieler Boxen auf ihre Namen
-//und startet Timer
+//Startet das Hauptspiel
 function startfunction() {
+    //setzt den doppelten Wert des Paarsliders an Karten
     kartensetzen(document.getElementById("Paarslider").value);
+
+    //speichert Karten in einem Array ab
     cards = document.querySelectorAll(".memory-card");
+
+    //fügt zu jeder Karte einen EventListener hinzu, damit die Karten umgedreht werden können beim anklicken
     for (let i = 0; i < cards.length; i++) {
         cards[i].addEventListener("click", flipCard);
     }
+
+    //spielt Animationen ab, die Startbildschirm verschwinden und Spielfeld erscheinen lassen
     document.getElementById("rahmen").classList.add("schieben");
     document.getElementById("Hauptspiel").classList.add("einfliegen");
 
+    //mischt Karten
     shuffle(document.getElementById("Paarslider").value);
+
+    //setzt die TextNodes der Spieler Boxen auf ihre Namen
     setTextNode("text1", "Spieler 1", "namenbox1");
     setTextNode("text2", "Spieler 2", "namenbox2");
     setTextNode("text3", "Spieler 3", "namenbox3");
     setTextNode("text4", "Spieler 4", "namenbox4");
 
+    //und startet Timer
+    //führt die function setTime jede volle Sekunde aus
     timer = setInterval(setTime, 1000);
 }
 
@@ -226,13 +232,50 @@ function kartensetzen(amount) {
     }
 }
 
+//Karten werden gemischt
+function shuffle(anzahl) {
+    for (let i = 0; i < cards.length; i++) {
+        //jede Karte bekommt eine Zahl zwischen 1 und der Zahl der insgesamten Karten
+        //auf dem Spielfeld zugeordnet also höchstens zwischen 1 und 50
+        let randomPos = Math.floor(Math.random() * anzahl * 2);
+        //die Karten werden nach ihrer jeweiligen Nummer auf dem Spielfeld angeordnet der Größe nach
+        cards[i].style.order = randomPos;
+    }
+}
+
+//timer function
+function setTime() {
+    //zählt Variable bei jedem Eintritt in die function hoch, also jede volle Sekunde
+    ++totalSeconds;
+    //secondesLabel zeigt jeden Wert zwischen 0 und 59 an, also die Sekunden
+    secondsLabel.innerHTML = auffüllen(totalSeconds % 60);
+    //minutesLabel teilt totalSeconds immer durch 60, da immer abgerundet wird, wird minutesLabel nur
+    //raufgezählt, wenn totalSeconds 60 erreicht
+    minutesLabel.innerHTML = auffüllen(parseInt(totalSeconds / 60));
+}
+
+//füllt die nicht benutzten Stellen des Timers mit 0 auf, damit es wie ein Timer aussieht
+function auffüllen(val) {
+    let valString = val + "";
+    if (valString.length < 2) {
+        return "0" + valString;
+    } else {
+        return valString;
+    }
+}
+
+//dreht Karten indem es zu jeder Karte die angeklickt wurde die Klasse flip zur classList hinzufügt
 function flipCard() {
+    //testet ob Spielfeld freigegeben ist durch boolsche Variable
     if (lockBoard) return;
+    //sorgt dafür dass die Karten nicht doppelt angeklickt werden und zweimal gezählt werden
     if (this === firstCard) return;
     if (this === secondCard) return;
 
+    //fügt classList zur Karte hinzu
     this.classList.add("flip");
 
+    //speichert Karte die zuerst angeklickt wird in der Variable firstCard zum Vergleichen und "sperrt" dann if-Statement
     if (!hasFlippedCard) {
         hasFlippedCard = true;
         firstCard = this;
@@ -240,17 +283,24 @@ function flipCard() {
         return;
     }
 
+    //zweite Karte wird somit automatisch in der Variablen secondCard gespeichert
     secondCard = this;
 
+    //if-Statement wird für das nächste Kartenpaar wieder freigegeben
     hasFlippedCard = false;
 
     checkForMatch();
 }
 
+//prüft ob Karten gleich sind und zählt Zähler für Versuche und Paare hoch
 function checkForMatch() {
+    //selbstgesetzte value der Karten div's, die bei der function kartensetzen verteilt wurden werden verglichen
     if (firstCard.getAttribute("value") === secondCard.getAttribute("value")) {
+        //entfernt eventListener der Karten, damit sie nicht wieder angeklickt werden können
         disableCards();
 
+        //zählt Zähler für Versuche und Paare der jeweiligen Spieler Box hoch, wenn diese an der Reihe sind, also
+        //die Klasse "hervorheben" enthalten, da ein Versuch gebraucht wurde und ein Paar gefunden wurde
         if (
             document
                 .getElementById("playerbox1")
@@ -300,16 +350,19 @@ function checkForMatch() {
             paarecounter4++;
         }
 
-        console.log(endtest());
+        //testet ob jede Karte umgedreht wurde, wenn ja erscheint der endscreen
         if (endtest()) {
             endscreen();
         }
 
+        //beendet checkforMatch()
         return;
     }
 
+    //falls die Karten nicht gleich sind werden sie wieder umgedreht
     unflipCards();
 
+    //zählt hier nur den Versuche Zähler hoch, da kein Paar gefunden wurde sondern nur ein Versuch gebraucht wurde
     if (
         document.getElementById("playerbox1").classList.contains("hervorheben")
     ) {
@@ -339,55 +392,81 @@ function checkForMatch() {
         versuchecounter4++;
     }
 
+    //der nächste Spieler in 1.2 Sekunden nachher dran
     setTimeout(function () {
         nextPlayer();
     }, 1200);
 }
 
+//entfernt die eventListener der Karten die gefunden wurden
 function disableCards() {
     firstCard.removeEventListener("click", flipCard);
     secondCard.removeEventListener("click", flipCard);
+    //Klasse "gefunden" entfernt auch den Schatten um die Karten, damit
+    //die gefundenen Karten mehr in den Hintergrund rücken
     firstCard.classList.add("gefunden");
     secondCard.classList.add("gefunden");
+    //setzt Spielfeld zurück
     resetBoard();
 }
 
+//Karten werden wieder umgedreht
 function unflipCards() {
+    //sperrt Spielfeld damit keine neuen Karten während des Umdrehens ausgewählt werden können
     lockBoard = true;
     setTimeout(function () {
         setTimeout(function () {
+            //erste Karte wird 100 Millisekunden nach der zweiten umgedreht
             firstCard.classList.remove("flip");
             resetBoard();
+            //jetzt können wieder Karten ausgewählt werden
             lockBoard = false;
         }, 100);
 
+        //zweite Karte wird 1 Sekunde nach aufdecken wieder umgedreht
         secondCard.classList.remove("flip");
     }, 1000);
 }
 
-function myfunction() {
-    totalAmount = this.value;
-    console.log(totalAmount);
+//setzt Variablen des Spielfelds zurück, damit keine gespeicherten Werte das Spiel stören
+function resetBoard() {
+    hasFlippedCard = false;
+    firstCard = null;
+    secondCard = null;
 }
 
+//speichert die Anzahl der spieler in totalAmount
+function myfunction() {
+    totalAmount = this.value;
+}
+
+//totalAmount wird hier benutzt um den richtigen Spieler hervorzuheben, wenn er an der Reihe ist
 function nextPlayer() {
+    //für ersten Durchlauf von nextPlayer(ganz oben in der js Datei) wird Standard der erste Spieler ausgewählt,
+    //damit dieser als erster an der Reihe ist
     if (defaulthervorheben) {
         document.getElementById("playerbox1").classList.add("hervorheben");
         defaulthervorheben = false;
         return;
     }
 
+    //falls im Startbildschirm kein Knopf gedrückt wurde ist totalAmount undefined und es gibt nur einen Spieler
     if (totalAmount == undefined) {
         document.getElementById("playerbox1").classList.add("hervorheben");
         return;
     }
 
+    //falls nur explizit ein Spieler ausgewählt wurde ist dieser immer an der Reihe
     if (totalAmount == 1) {
         document.getElementById("playerbox1").classList.add("hervorheben");
         return;
     }
 
+    //für den Rest der Möglichkeiten von totalAmount wird jedes Mal eine for-Schleife aufgerufen, wenn nextPlayer() aufgerufen wurde,
+    //um den nächsten Spieler zu bestimmen, der die Klasse "hervorheben" bekommt
+    //dem Spieler der nicht mehr an der Reihe ist wird die Klasse "hervorheben" entzogen
     for (let i = 0; i < players.length; i++) {
+        //vergleichs Variable wird als Referenz benutzt, um zu sehen wer an der Reihe ist
         if (players[i].getAttribute("value") == vergleich) {
             players[i].classList.remove("hervorheben");
         }
@@ -399,26 +478,18 @@ function nextPlayer() {
         }
     }
 
+    //Variable wird hochgezählt, damit sie gleich der value des nächsten Spielers ist
     vergleich++;
+    //vergleich wird modulo genommen, damit sie in der range von totalAmount bleibt
     vergleich %= totalAmount;
 }
 
-function resetBoard() {
-    hasFlippedCard = false;
-    firstCard = null;
-    secondCard = null;
-}
-
-function shuffle(anzahl) {
-    console.log(cards);
-    for (let i = 0; i < cards.length; i++) {
-        let randomPos = Math.floor(Math.random() * anzahl * 2);
-        cards[i].style.order = randomPos;
-    }
-}
-
+//reset function, wenn man das bereits gestartete Spiel unterbrechen will
 function spielresetfunction() {
+    //Frage ob man wirklich zurücksetzen will, damit nicht sofort,
+    //wenn man zufällig daraufklickt das Spiel zurückgesetzt wird
     if (!confirm("Wollen Sie das Spiel wirklich zurücksetzen?")) return;
+    //Zähler werden wieder auf Anfangswert gesetzt
     versuchecounter1 = 1;
     versuchecounter2 = 1;
     versuchecounter3 = 1;
@@ -427,6 +498,7 @@ function spielresetfunction() {
     paarecounter2 = 1;
     paarecounter3 = 1;
     paarecounter4 = 1;
+    //Boxen werden auch wieder auf Anfangwert gesetzt
     document.getElementById("versuchebox1").innerHTML = "Versuche: 0";
     document.getElementById("versuchebox2").innerHTML = "Versuche: 0";
     document.getElementById("versuchebox2").innerHTML = "Versuche: 0";
@@ -435,59 +507,49 @@ function spielresetfunction() {
     document.getElementById("paarebox2").innerHTML = "Paare: 0";
     document.getElementById("paarebox3").innerHTML = "Paare: 0";
     document.getElementById("paarebox4").innerHTML = "Paare: 0";
+    //Animationen werden wieder rückgängig gemacht
     document.getElementById("rahmen").classList.remove("schieben");
     document.getElementById("Hauptspiel").classList.remove("einfliegen");
-    console.log(cards);
+    //reset function von oben wird wieder verwendet für Startbildschirm
     resetfunction();
+    //Anzahl der Textfelder, Boxen und der endscreen wird auch wieder auf Anfangswert gesetzt
     setPlayerFunctions(1);
+    //Karten werden wieder alle entfernt, damit sie nicht addiert werden bei wieder starten des Spiels
     for (let i = 0; i < cards.length; i++) {
         cards[i].remove();
         cards[i].classList.remove("flip");
         cards[i].addEventListener("click", flipCard);
     }
 
-    console.log(cards);
-
+    //kein Spieler ist mehr an der Reihe => Spieler 1 ist dann wieder standardmäßig an der Reihe
     for (let i = 0; i < players.length; i++) {
         players[i].classList.remove("hervorheben");
     }
+    //jeder Knopf im Startbildschirm fürs Auswählen der Anzahl der Spieler bekommt wieder seinen eventListener, damit
+    //totalAmount neu zugewiesen werden kann
     document.getElementById("select1").addEventListener("click", myfunction);
     document.getElementById("select2").addEventListener("click", myfunction);
     document.getElementById("select3").addEventListener("click", myfunction);
     document.getElementById("select4").addEventListener("click", myfunction);
+    //für den ersten Durchlauf von nextPlayer(), damit der Spieler 1 wieder hervorgehoben wird
     defaulthervorheben = true;
     vergleich = 0;
     nextPlayer();
     totalAmount = undefined;
 
+    //eingegebene Namen werden wieder gelöscht
     document.getElementById("namenbox1").innerHTML = "Player 1: <br>";
     document.getElementById("namenbox2").innerHTML = "Player 2: <br>";
     document.getElementById("namenbox3").innerHTML = "Player 3: <br>";
     document.getElementById("namenbox4").innerHTML = "Player 4: <br>";
-    for (let i = 0; i < cards.length; i++) {
-        cards[i].classList.remove("display");
-    }
+    //timer wird gestoppt und Komponenten des Timers zurückgesetzt
     clearInterval(timer);
     totalSeconds = 0;
     minutesLabel.innerHTML = "00";
     secondsLabel.innerHTML = "00";
 }
 
-function setTime() {
-    ++totalSeconds;
-    secondsLabel.innerHTML = pad(totalSeconds % 60);
-    minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
-}
-
-function pad(val) {
-    let valString = val + "";
-    if (valString.length < 2) {
-        return "0" + valString;
-    } else {
-        return valString;
-    }
-}
-
+//testet nach jedem gefundenen Paar ob jede Karte umgedreht wurde => wenn die function true ausgibt, wird endscreen ausgeführt
 function endtest() {
     for (let i = 0; i < cards.length; i++) {
         if (!cards[i].classList.contains("flip")) {
@@ -497,11 +559,16 @@ function endtest() {
     return true;
 }
 
+//endscreen, wenn das Spiel vorbei ist
 function endscreen() {
+    //timer wird gestoppt
     clearInterval(timer);
+    //der Bildschirm wird verdunkelt, um das Ende des Spiels zu zeigen, und man kann nicht mehr mit Elementen aus "Hauptspiel" interagieren
     document.getElementById("Hauptspiel").classList.add("verdunkeln");
     document.getElementById("endscreen").classList.add("verdunkeln");
+    //das div das die nach Punkten geordnete Tabelle der Spieler zeigt wird angezeigt
     document.getElementById("siegertabelle").classList.add("anzeigen");
+    //Array zum sortieren der Spieler nach Paaren
     var sortingarray = [
         paarecounter1 - 1,
         paarecounter2 - 1,
@@ -509,6 +576,7 @@ function endscreen() {
         paarecounter4 - 1,
     ];
 
+    //zum Vergleichen mit dem sortierten Array
     var vergleichsarray = [
         paarecounter1 - 1,
         paarecounter2 - 1,
@@ -516,6 +584,7 @@ function endscreen() {
         paarecounter4 - 1,
     ];
 
+    //zum Zählen der insgesamt gebrauchten Versuche aller Spieler
     var versuchearray = [
         versuchecounter1 - 1,
         versuchecounter2 - 1,
@@ -523,16 +592,19 @@ function endscreen() {
         versuchecounter4 - 1,
     ];
 
+    //Variablen, die den Komponenten des sortierten Arrays zugeordnet werden
     var erster;
     var zweiter;
     var dritter;
     var vierter;
 
+    //um die if-Statements zu sperren, damit sie nicht zweimal durchgegangen werden
     var lock1 = true;
     var lock2 = true;
     var lock3 = true;
     var lock4 = true;
 
+    //sortieren von dem sortingarray durch den bubblesort Algorithmus => muss nur viermal durchgegangen werden
     let bubblesort = 0;
     while (bubblesort <= 3) {
         for (let i = 0; i < sortingarray.length; i++) {
@@ -546,6 +618,8 @@ function endscreen() {
         bubblesort++;
     }
 
+    //sortiertes Array wird mit dem nicht sortierten verglichen, damit die Komponenten in den entsprechenden Variable
+    //gespeichert werden können
     for (var i = 0; i < vergleichsarray.length; i++) {
         if (lock1) {
             if (sortingarray[0] == vergleichsarray[i]) {
@@ -580,12 +654,7 @@ function endscreen() {
         }
     }
 
-    console.log(sortingarray);
-    console.log(erster);
-    console.log(zweiter);
-    console.log(dritter);
-    console.log(vierter);
-
+    //Array mit den div's der von siegertabelle
     siegerarray = [
         document.getElementById("sieger1"),
         document.getElementById("sieger2"),
@@ -593,6 +662,7 @@ function endscreen() {
         document.getElementById("sieger4"),
     ];
 
+    //Array mit den eingegebenen Namen
     var textarray = [
         document.getElementById("text1"),
         document.getElementById("text2"),
@@ -600,8 +670,11 @@ function endscreen() {
         document.getElementById("text4"),
     ];
 
+    //platzanzeiger fügt in der siegertabelle jedem Spieler seinen richtigen Platz hinzu
     var platzanzeiger = "1.Platz: ";
+    //die Klasse "erster" färbt die Schrift des div's golden
     siegerarray[0].classList.add("erster");
+    //testen ob ein Name eingegeben wurde, wenn nicht dann wird Standard Name verwendet
     if (textarray[erster].value.trim().length === 0) {
         siegerarray[0].innerHTML =
             platzanzeiger +
@@ -618,13 +691,18 @@ function endscreen() {
             "Paare: " +
             vergleichsarray[erster];
 
+    //testen ob der erste in sortingarray dieselbe Punktzahl hat wie der zweite
+    //wenn nein => zweiter wird 2.Platz
     if (sortingarray[0] != sortingarray[1]) {
+        //die Klasse zweiter färbt die Schrift des div's silber
         siegerarray[1].classList.add("zweiter");
         platzanzeiger = "2.Platz: ";
     }
+    //wenn ja => beide sind 1.Platz
     if (sortingarray[0] == sortingarray[1])
         siegerarray[1].classList.add("erster");
 
+    //dieselbe Prozedur wie beim ersten Spieler
     if (textarray[zweiter].value.trim().length === 0) {
         siegerarray[1].innerHTML =
             platzanzeiger +
@@ -641,8 +719,12 @@ function endscreen() {
             "Paare: " +
             vergleichsarray[zweiter];
 
+    //dasselbe jetzt für den dritten und vierten Spieler nur mit mehr
+    //if-Abfragen, da der dritte genauso viele Punkte wie der erste und der
+    //zweite oder nur so viele wie der zweite hat oder wirklich dritter ist
     if (sortingarray[1] != sortingarray[2]) {
         if (platzanzeiger == "2.Platz: ") {
+            //die Klasse "dritter" färbt die Schrift des div's bronze
             siegerarray[2].classList.add("dritter");
             platzanzeiger = "3.Platz: ";
         }
@@ -672,6 +754,7 @@ function endscreen() {
             vergleichsarray[dritter];
 
     if (sortingarray[2] != sortingarray[3]) {
+        //die Schrift des vierten Platzes bleibt schwarz
         if (platzanzeiger == "3.Platz: ") platzanzeiger = "4.Platz: ";
         if (platzanzeiger == "2.Platz: ") {
             siegerarray[3].classList.add("dritter");
@@ -706,6 +789,7 @@ function endscreen() {
             "Paare: " +
             vergleichsarray[vierter];
 
+    //ausrechnen der insgesamt gebrauchten Versuche von jedem Spieler
     let insgesamtversuche = 0;
     for (let i = 0; i < versuchearray.length; i++)
         insgesamtversuche += versuchearray[i];
@@ -713,11 +797,15 @@ function endscreen() {
         "Versuche insgesamt: " + insgesamtversuche;
 }
 
+//setzt das Spiel im endscreen zurück
 function allspielresetfunction() {
+    //spielresetfunction von vorher wird wieder verwendet
     spielresetfunction();
+    //Animationen werden wieder rückgängig gemacht
     document.getElementById("Hauptspiel").classList.remove("verdunkeln");
     document.getElementById("endscreen").classList.remove("verdunkeln");
     document.getElementById("siegertabelle").classList.remove("anzeigen");
+    //siegertabelle wird wieder auf Standard zurückgesetzt
     for (let i = 0; i < siegerarray.length; i++) {
         siegerarray[i].classList.remove("erster");
         siegerarray[i].classList.remove("zweiter");
