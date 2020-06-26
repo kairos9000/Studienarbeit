@@ -5,13 +5,13 @@ var defaulthervorheben = true;
 //der an der Reihe ist zu wechseln
 var totalAmount;
 //Array das alle Karten speichert
-var cards;
+var Karten;
 //testet ob erste oder zweite Karte gedreht wurde
-let hasFlippedCard = false;
+let wurde_schon_Karte_umgedreht = false;
 //Variablen für erste und zweite Karte
-let firstCard, secondCard;
+let ersteKarte, zweiteKarte;
 //sperr Variable, damit während der Animation des Umdrehens keine Karten angeklickt werden können
-let lockBoard = false;
+let Spielfeld_sperren = false;
 //zähler für die einzelnen Spieler
 var versuchecounter1 = 1;
 var versuchecounter2 = 1;
@@ -49,10 +49,18 @@ nextPlayer();
 document.getElementById("Hauptspiel").classList.remove("einfliegen");
 //fügt EventListener zu den Knöpfen zum Einstellen der Spieleranzahl hinzu,
 //damit die Variable totalAmount sich die Zahl der Spieler im Spiel merkt
-document.getElementById("select1").addEventListener("click", myfunction);
-document.getElementById("select2").addEventListener("click", myfunction);
-document.getElementById("select3").addEventListener("click", myfunction);
-document.getElementById("select4").addEventListener("click", myfunction);
+document
+    .getElementById("select1")
+    .addEventListener("click", totalAmount_Zuweisung);
+document
+    .getElementById("select2")
+    .addEventListener("click", totalAmount_Zuweisung);
+document
+    .getElementById("select3")
+    .addEventListener("click", totalAmount_Zuweisung);
+document
+    .getElementById("select4")
+    .addEventListener("click", totalAmount_Zuweisung);
 
 //Textfelder im Hauptbildschirm, Spieler Boxen auf dem Spielfeld und
 //div's im endscreen werden je nach Bedarf sichtbar oder unsichtbar gemacht
@@ -145,18 +153,18 @@ function resetfunction() {
 //Startet das Hauptspiel
 function startfunction() {
     //setzt den doppelten Wert des Paarsliders an Karten
-    kartensetzen(document.getElementById("Paarslider").value);
+    kartenSetzen(document.getElementById("Paarslider").value);
 
     //speichert Karten in einem Array ab
-    cards = document.querySelectorAll(".memory-card");
+    Karten = document.querySelectorAll(".memory_Karte");
 
     //fügt zu jeder Karte einen EventListener hinzu, damit die Karten umgedreht werden können beim anklicken
-    for (let i = 0; i < cards.length; i++) {
-        cards[i].addEventListener("click", flipCard);
+    for (let i = 0; i < Karten.length; i++) {
+        Karten[i].addEventListener("click", KartenUmdrehen);
     }
 
     //spielt Animationen ab, die Startbildschirm verschwinden und Spielfeld erscheinen lassen
-    document.getElementById("rahmen").classList.add("schieben");
+    document.getElementById("Startbildschirm").classList.add("schieben");
     document.getElementById("Hauptspiel").classList.add("einfliegen");
 
     //mischt Karten
@@ -187,11 +195,11 @@ function randomfunction() {
 //geht for-Schleife bis zum Wert des Sliders durch
 //und setzt bei jedem Durchgang zwei Karten, die jeweils
 //Vorder- und Rückseite mit Emojis haben
-function kartensetzen(amount) {
+function kartenSetzen(amount) {
     for (let i = 1; i <= amount; i++) {
         let karte1 = document.createElement("div");
         //jede Karte bekommt diese Klasse damit sie in das Array Karten aufgenommen wird
-        karte1.classList.add("memory-card");
+        karte1.classList.add("memory_Karte");
         //damit die Karten verglichen werden können
         karte1.setAttribute("value", i);
 
@@ -209,10 +217,10 @@ function kartensetzen(amount) {
 
         karte1.appendChild(frontface1);
         karte1.appendChild(backface1);
-        document.getElementById("memory-game").appendChild(karte1);
+        document.getElementById("memory-Spiel").appendChild(karte1);
 
         let karte2 = document.createElement("div");
-        karte2.classList.add("memory-card");
+        karte2.classList.add("memory_Karte");
         karte2.setAttribute("value", i);
 
         let frontface2 = document.createElement("div");
@@ -225,7 +233,7 @@ function kartensetzen(amount) {
 
         karte2.appendChild(frontface2);
         karte2.appendChild(backface2);
-        document.getElementById("memory-game").appendChild(karte2);
+        document.getElementById("memory-Spiel").appendChild(karte2);
 
         //bei jedem Durchgang kommt ein anderer emoji auf die Karten
         emoji++;
@@ -234,12 +242,12 @@ function kartensetzen(amount) {
 
 //Karten werden gemischt
 function shuffle(anzahl) {
-    for (let i = 0; i < cards.length; i++) {
+    for (let i = 0; i < Karten.length; i++) {
         //jede Karte bekommt eine Zahl zwischen 1 und der Zahl der insgesamten Karten
         //auf dem Spielfeld zugeordnet also höchstens zwischen 1 und 50
         let randomPos = Math.floor(Math.random() * anzahl * 2);
         //die Karten werden nach ihrer jeweiligen Nummer auf dem Spielfeld angeordnet der Größe nach
-        cards[i].style.order = randomPos;
+        Karten[i].style.order = randomPos;
     }
 }
 
@@ -264,40 +272,42 @@ function auffüllen(val) {
     }
 }
 
-//dreht Karten indem es zu jeder Karte die angeklickt wurde die Klasse flip zur classList hinzufügt
-function flipCard() {
+//dreht Karten indem es zu jeder Karte die angeklickt wurde die Klasse "drehen" zur classList hinzufügt
+function KartenUmdrehen() {
     //testet ob Spielfeld freigegeben ist durch boolsche Variable
-    if (lockBoard) return;
+    if (Spielfeld_sperren) return;
     //sorgt dafür dass die Karten nicht doppelt angeklickt werden und zweimal gezählt werden
-    if (this === firstCard) return;
-    if (this === secondCard) return;
+    if (this === ersteKarte) return;
+    if (this === zweiteKarte) return;
 
     //fügt classList zur Karte hinzu
-    this.classList.add("flip");
+    this.classList.add("drehen");
 
     //speichert Karte die zuerst angeklickt wird in der Variable firstCard zum Vergleichen und "sperrt" dann if-Statement
-    if (!hasFlippedCard) {
-        hasFlippedCard = true;
-        firstCard = this;
+    if (!wurde_schon_Karte_umgedreht) {
+        wurde_schon_Karte_umgedreht = true;
+        ersteKarte = this;
 
         return;
     }
 
     //zweite Karte wird somit automatisch in der Variablen secondCard gespeichert
-    secondCard = this;
+    zweiteKarte = this;
 
     //if-Statement wird für das nächste Kartenpaar wieder freigegeben
-    hasFlippedCard = false;
+    wurde_schon_Karte_umgedreht = false;
 
-    checkForMatch();
+    check_if_pairs();
 }
 
 //prüft ob Karten gleich sind und zählt Zähler für Versuche und Paare hoch
-function checkForMatch() {
+function check_if_pairs() {
     //selbstgesetzte value der Karten div's, die bei der function kartensetzen verteilt wurden werden verglichen
-    if (firstCard.getAttribute("value") === secondCard.getAttribute("value")) {
+    if (
+        ersteKarte.getAttribute("value") === zweiteKarte.getAttribute("value")
+    ) {
         //entfernt eventListener der Karten, damit sie nicht wieder angeklickt werden können
-        disableCards();
+        karten_passen();
 
         //zählt Zähler für Versuche und Paare der jeweiligen Spieler Box hoch, wenn diese an der Reihe sind, also
         //die Klasse "hervorheben" enthalten, da ein Versuch gebraucht wurde und ein Paar gefunden wurde
@@ -360,7 +370,7 @@ function checkForMatch() {
     }
 
     //falls die Karten nicht gleich sind werden sie wieder umgedreht
-    unflipCards();
+    wieder_umdrehen();
 
     //zählt hier nur den Versuche Zähler hoch, da kein Paar gefunden wurde sondern nur ein Versuch gebraucht wurde
     if (
@@ -399,44 +409,44 @@ function checkForMatch() {
 }
 
 //entfernt die eventListener der Karten die gefunden wurden
-function disableCards() {
-    firstCard.removeEventListener("click", flipCard);
-    secondCard.removeEventListener("click", flipCard);
+function karten_passen() {
+    ersteKarte.removeEventListener("click", KartenUmdrehen);
+    zweiteKarte.removeEventListener("click", KartenUmdrehen);
     //Klasse "gefunden" entfernt auch den Schatten um die Karten, damit
     //die gefundenen Karten mehr in den Hintergrund rücken
-    firstCard.classList.add("gefunden");
-    secondCard.classList.add("gefunden");
+    ersteKarte.classList.add("gefunden");
+    zweiteKarte.classList.add("gefunden");
     //setzt Spielfeld zurück
     resetBoard();
 }
 
 //Karten werden wieder umgedreht
-function unflipCards() {
+function wieder_umdrehen() {
     //sperrt Spielfeld damit keine neuen Karten während des Umdrehens ausgewählt werden können
-    lockBoard = true;
+    Spielfeld_sperren = true;
     setTimeout(function () {
         setTimeout(function () {
             //erste Karte wird 100 Millisekunden nach der zweiten umgedreht
-            firstCard.classList.remove("flip");
+            ersteKarte.classList.remove("drehen");
             resetBoard();
             //jetzt können wieder Karten ausgewählt werden
-            lockBoard = false;
+            Spielfeld_sperren = false;
         }, 100);
 
         //zweite Karte wird 1 Sekunde nach aufdecken wieder umgedreht
-        secondCard.classList.remove("flip");
+        zweiteKarte.classList.remove("drehen");
     }, 1000);
 }
 
 //setzt Variablen des Spielfelds zurück, damit keine gespeicherten Werte das Spiel stören
 function resetBoard() {
-    hasFlippedCard = false;
-    firstCard = null;
-    secondCard = null;
+    wurde_schon_Karte_umgedreht = false;
+    ersteKarte = null;
+    zweiteKarte = null;
 }
 
 //speichert die Anzahl der spieler in totalAmount
-function myfunction() {
+function totalAmount_Zuweisung() {
     totalAmount = this.value;
 }
 
@@ -508,17 +518,17 @@ function spielresetfunction() {
     document.getElementById("paarebox3").innerHTML = "Paare: 0";
     document.getElementById("paarebox4").innerHTML = "Paare: 0";
     //Animationen werden wieder rückgängig gemacht
-    document.getElementById("rahmen").classList.remove("schieben");
+    document.getElementById("Startbildschirm").classList.remove("schieben");
     document.getElementById("Hauptspiel").classList.remove("einfliegen");
     //reset function von oben wird wieder verwendet für Startbildschirm
     resetfunction();
     //Anzahl der Textfelder, Boxen und der endscreen wird auch wieder auf Anfangswert gesetzt
     setPlayerFunctions(1);
     //Karten werden wieder alle entfernt, damit sie nicht addiert werden bei wieder starten des Spiels
-    for (let i = 0; i < cards.length; i++) {
-        cards[i].remove();
-        cards[i].classList.remove("flip");
-        cards[i].addEventListener("click", flipCard);
+    for (let i = 0; i < Karten.length; i++) {
+        Karten[i].remove();
+        Karten[i].classList.remove("drehen");
+        Karten[i].addEventListener("click", KartenUmdrehen);
     }
 
     //kein Spieler ist mehr an der Reihe => Spieler 1 ist dann wieder standardmäßig an der Reihe
@@ -527,10 +537,18 @@ function spielresetfunction() {
     }
     //jeder Knopf im Startbildschirm fürs Auswählen der Anzahl der Spieler bekommt wieder seinen eventListener, damit
     //totalAmount neu zugewiesen werden kann
-    document.getElementById("select1").addEventListener("click", myfunction);
-    document.getElementById("select2").addEventListener("click", myfunction);
-    document.getElementById("select3").addEventListener("click", myfunction);
-    document.getElementById("select4").addEventListener("click", myfunction);
+    document
+        .getElementById("select1")
+        .addEventListener("click", totalAmount_Zuweisung);
+    document
+        .getElementById("select2")
+        .addEventListener("click", totalAmount_Zuweisung);
+    document
+        .getElementById("select3")
+        .addEventListener("click", totalAmount_Zuweisung);
+    document
+        .getElementById("select4")
+        .addEventListener("click", totalAmount_Zuweisung);
     //für den ersten Durchlauf von nextPlayer(), damit der Spieler 1 wieder hervorgehoben wird
     defaulthervorheben = true;
     vergleich = 0;
@@ -538,10 +556,10 @@ function spielresetfunction() {
     totalAmount = undefined;
 
     //eingegebene Namen werden wieder gelöscht
-    document.getElementById("namenbox1").innerHTML = "Player 1: <br>";
-    document.getElementById("namenbox2").innerHTML = "Player 2: <br>";
-    document.getElementById("namenbox3").innerHTML = "Player 3: <br>";
-    document.getElementById("namenbox4").innerHTML = "Player 4: <br>";
+    document.getElementById("namenbox1").innerHTML = "Spieler 1: <br>";
+    document.getElementById("namenbox2").innerHTML = "Spieler 2: <br>";
+    document.getElementById("namenbox3").innerHTML = "Spieler 3: <br>";
+    document.getElementById("namenbox4").innerHTML = "Spieler 4: <br>";
     //timer wird gestoppt und Komponenten des Timers zurückgesetzt
     clearInterval(timer);
     totalSeconds = 0;
@@ -551,8 +569,8 @@ function spielresetfunction() {
 
 //testet nach jedem gefundenen Paar ob jede Karte umgedreht wurde => wenn die function true ausgibt, wird endscreen ausgeführt
 function endtest() {
-    for (let i = 0; i < cards.length; i++) {
-        if (!cards[i].classList.contains("flip")) {
+    for (let i = 0; i < Karten.length; i++) {
+        if (!Karten[i].classList.contains("drehen")) {
             return false;
         }
     }
