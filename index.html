@@ -25,7 +25,7 @@
                 <div id="sieger4">
                 
                 </div>
-                <div id="insgesamt_versuche"></div>
+                <div id="insgesamt_versuche_ende"></div>
                 <!--Button zum reseten des Spiels-->
                 <div id="spielreset_container">
                     <button id="spielreset" onclick="allspielresetfunction()">
@@ -97,6 +97,7 @@
                             id="text1"
                             class="textfeld"
                             type="text"
+                            maxlength="20"
                         />
                     </div>
                     <div id="Player2" class="player">
@@ -104,6 +105,7 @@
                             id="text2"
                             class="textfeld"
                             type="text"
+                            maxlength="20"
                         />
                     </div>
                     <div id="Player3" class="player">
@@ -111,6 +113,7 @@
                             id="text3"
                             class="textfeld"
                             type="text"
+                            maxlength="20"
                         />
                     </div>
                     <div id="Player4" class="player">
@@ -118,6 +121,7 @@
                             id="text4"
                             class="textfeld"
                             type="text"
+                            maxlength="20"
                         />
                     </div>
                 </div>
@@ -157,11 +161,12 @@
                     <div id="versuchebox4">Versuche: 0</div>
                     <div id="paarebox4">Paare: 0</div>
                 </div>
-                <!--Timer, der die Zeit des Spiels zählt-->
-                <div id="timer">
+                <!--Timer, der die Zeit des Spiels zählt und versuche counter der alle Versuche aufsummiert-->
+                <div id="timer_und_versuche">
                     <label id="minutes">00</label>:<label id="seconds"
                         >00</label
                     >
+                    <div id="insgesamt_versuche_spiel">Versuche: 0</div>
                 </div>
                 <!--Container der durch appendChild mit Karten befüllt wird-->
                 <div id="memory-Spiel"></div>

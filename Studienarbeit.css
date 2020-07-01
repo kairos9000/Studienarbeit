@@ -62,7 +62,7 @@ body {
 #sieger2,
 #sieger3,
 #sieger4,
-#insgesamt_versuche {
+#insgesamt_versuche_ende {
     text-align: center;
     margin: 20px 20px;
     transform: scale(0.9);
@@ -450,7 +450,7 @@ input:focus {
 }
 
 /*div damit der Timer in der Mitte ist*/
-#timer {
+#timer_und_versuche {
     text-align: center;
 }
 

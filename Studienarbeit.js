@@ -17,6 +17,8 @@ var versuchecounter1 = 1;
 var versuchecounter2 = 1;
 var versuchecounter3 = 1;
 var versuchecounter4 = 1;
+//zum zählen der Versuche aller Spieler während des Spiels
+var insgesamt_versuche_im_spiel = 1;
 var paarecounter1 = 1;
 var paarecounter2 = 1;
 var paarecounter3 = 1;
@@ -195,8 +197,8 @@ function randomfunction() {
 //geht for-Schleife bis zum Wert des Sliders durch
 //und setzt bei jedem Durchgang zwei Karten, die jeweils
 //Vorder- und Rückseite mit Emojis haben
-function kartenSetzen(amount) {
-    for (let i = 1; i <= amount; i++) {
+function kartenSetzen(kartenzahl) {
+    for (let i = 1; i <= kartenzahl; i++) {
         let karte1 = document.createElement("div");
         //jede Karte bekommt diese Klasse damit sie in das Array Karten aufgenommen wird
         karte1.classList.add("memory_Karte");
@@ -360,6 +362,11 @@ function check_if_pairs() {
             paarecounter4++;
         }
 
+        //zum zählen der Versuche aller Spieler während des Spiels
+        document.getElementById("insgesamt_versuche_spiel").innerHTML =
+            "Versuche: " + insgesamt_versuche_im_spiel;
+        insgesamt_versuche_im_spiel++;
+
         //testet ob jede Karte umgedreht wurde, wenn ja erscheint der endscreen
         if (endtest()) {
             endscreen();
@@ -401,6 +408,10 @@ function check_if_pairs() {
             "Versuche: " + versuchecounter4;
         versuchecounter4++;
     }
+
+    document.getElementById("insgesamt_versuche_spiel").innerHTML =
+        "Versuche: " + insgesamt_versuche_im_spiel;
+    insgesamt_versuche_im_spiel++;
 
     //der nächste Spieler in 1.2 Sekunden nachher dran
     setTimeout(function () {
@@ -504,6 +515,7 @@ function spielresetfunction() {
     versuchecounter2 = 1;
     versuchecounter3 = 1;
     versuchecounter4 = 1;
+    insgesamt_versuche_im_spiel = 1;
     paarecounter1 = 1;
     paarecounter2 = 1;
     paarecounter3 = 1;
@@ -513,6 +525,8 @@ function spielresetfunction() {
     document.getElementById("versuchebox2").innerHTML = "Versuche: 0";
     document.getElementById("versuchebox2").innerHTML = "Versuche: 0";
     document.getElementById("versuchebox2").innerHTML = "Versuche: 0";
+    document.getElementById("insgesamt_versuche_spiel").innerHTML =
+        "Versuche: 0";
     document.getElementById("paarebox1").innerHTML = "Paare: 0";
     document.getElementById("paarebox2").innerHTML = "Paare: 0";
     document.getElementById("paarebox3").innerHTML = "Paare: 0";
@@ -530,6 +544,8 @@ function spielresetfunction() {
         Karten[i].classList.remove("drehen");
         Karten[i].addEventListener("click", KartenUmdrehen);
     }
+    //damit nicht andere emojis beim nächsten spiel genommen werden
+    emoji = 13;
 
     //kein Spieler ist mehr an der Reihe => Spieler 1 ist dann wieder standardmäßig an der Reihe
     for (let i = 0; i < players.length; i++) {
@@ -811,7 +827,7 @@ function endscreen() {
     let insgesamtversuche = 0;
     for (let i = 0; i < versuchearray.length; i++)
         insgesamtversuche += versuchearray[i];
-    document.getElementById("insgesamt_versuche").innerHTML =
+    document.getElementById("insgesamt_versuche_ende").innerHTML =
         "Versuche insgesamt: " + insgesamtversuche;
 }
 
