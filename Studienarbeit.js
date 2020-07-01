@@ -150,6 +150,7 @@ function resetfunction() {
     document.getElementById("text2").value = "";
     document.getElementById("text3").value = "";
     document.getElementById("text4").value = "";
+    totalAmount = 1;
 }
 
 //Startet das Hauptspiel
@@ -192,6 +193,7 @@ function randomfunction() {
     let random_player_amount = Math.floor(Math.random() * 4);
     random_player_amount++;
     setPlayerFunctions(random_player_amount);
+    totalAmount = random_player_amount;
 }
 
 //geht for-Schleife bis zum Wert des Sliders durch
