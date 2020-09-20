@@ -1,7 +1,14 @@
 body {
-    font-family: Arial, sans-serif;
-    font-size: 20px;
-    background-color: #57a;
+    font-family: Montserrat, sans-serif;
+    margin: 0;
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffb76b+0,833ab4+0,ff7f04+100 */
+    background: #ffb76b; /* Old browsers */
+    background: -moz-linear-gradient(45deg,  #ffb76b 0%, #833ab4 0%, #ff7f04 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(45deg,  #ffb76b 0%,#833ab4 0%,#ff7f04 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(45deg,  #ffb76b 0%,#833ab4 0%,#ff7f04 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb76b', endColorstr='#ff7f04',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     display: flex;
 }
 
@@ -10,6 +17,12 @@ body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+}
+
+#myCanvas{
+    display:flex;
+    z-index:10;
+    width:device-width;
 }
 
 /*endscreen zum Anzeigen der Punktetabelle*/
@@ -132,6 +145,8 @@ body {
 
 /*div das den Label "Memory-Spiel" enthält*/
 #Konfiguration {
+    font-size: 20px;
+    font-weight: 700;
     text-align: center;
     border: solid 1px black;
     background-color: #ffc570;
