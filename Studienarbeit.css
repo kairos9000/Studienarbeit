@@ -19,11 +19,7 @@ body {
     box-sizing: border-box;
 }
 
-#myCanvas{
-    display:flex;
-    z-index:10;
-    width:device-width;
-}
+
 
 /*endscreen zum Anzeigen der Punktetabelle*/
 #endscreen {
