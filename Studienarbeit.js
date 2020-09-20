@@ -42,12 +42,7 @@ var totalSeconds = 0;
 var timer = setInterval(setTime, 1000);
 clearInterval(timer);
 
-var c = document.getElementById("myCanvas");
-var ctx = c.getContext("2d");
-ctx.beginPath();
-ctx.moveTo(100, 20);
-ctx.bezierCurveTo(20, 100, 200, 100, 200, 20);
-ctx.stroke();
+
 
 //Alles Standard auf 1 Spieler setzen am Anfang
 setPlayerFunctions(1);
