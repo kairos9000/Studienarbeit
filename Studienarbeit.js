@@ -676,6 +676,5 @@ function allspielresetfunction() {
         siegerarray[i].classList.remove("erster");
         siegerarray[i].classList.remove("zweiter");
         siegerarray[i].classList.remove("dritter");
-        var hello = "Hello";
     }
 }
