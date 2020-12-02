@@ -23,15 +23,15 @@ var paarecounter1 = 1;
 var paarecounter2 = 1;
 var paarecounter3 = 1;
 var paarecounter4 = 1;
+//Array zum sortieren der Spieler nach Paaren
+var sortingarray = [paarecounter1 - 1, paarecounter2 - 1, paarecounter3 - 1, paarecounter4 - 1];
+
+//zum Zählen der insgesamt gebrauchten Versuche aller Spieler
+var versuchearray = [versuchecounter1 - 1, versuchecounter2 - 1, versuchecounter3 - 1, versuchecounter4 - 1];
 var vergleich = 0;
 //Array in der die Spieler nach ihren Punkten der Reihe nach geschrieben werden
 var siegerarray;
-var players = [
-    document.getElementById("playerbox1"),
-    document.getElementById("playerbox2"),
-    document.getElementById("playerbox3"),
-    document.getElementById("playerbox4"),
-];
+var players = [document.getElementById("playerbox1"), document.getElementById("playerbox2"), document.getElementById("playerbox3"), document.getElementById("playerbox4")];
 //Variable für Emojis auf den Karten
 var emoji = 13;
 //für Timer-function
@@ -42,8 +42,6 @@ var totalSeconds = 0;
 var timer = setInterval(setTime, 1000);
 clearInterval(timer);
 
-
-
 //Alles Standard auf 1 Spieler setzen am Anfang
 setPlayerFunctions(1);
 //1. Spieler wird hervorgehoben, dass er an der Reihe ist auf dem Spielfeld
@@ -53,18 +51,11 @@ nextPlayer();
 document.getElementById("Hauptspiel").classList.remove("einfliegen");
 //fügt EventListener zu den Knöpfen zum Einstellen der Spieleranzahl hinzu,
 //damit die Variable totalAmount sich die Zahl der Spieler im Spiel merkt
-document
-    .getElementById("select1")
-    .addEventListener("click", totalAmount_Zuweisung);
-document
-    .getElementById("select2")
-    .addEventListener("click", totalAmount_Zuweisung);
-document
-    .getElementById("select3")
-    .addEventListener("click", totalAmount_Zuweisung);
-document
-    .getElementById("select4")
-    .addEventListener("click", totalAmount_Zuweisung);
+let selecter_array = [document.getElementById("select1"), document.getElementById("select2"), document.getElementById("select3"), document.getElementById("select4")];
+
+for (let i = 0; i < selecter_array.length; i++) {
+    selecter_array[i].addEventListener("click", totalAmount_Zuweisung);
+}
 
 //Textfelder im Hauptbildschirm, Spieler Boxen auf dem Spielfeld und
 //div's im endscreen werden je nach Bedarf sichtbar oder unsichtbar gemacht
@@ -131,9 +122,7 @@ function setPaar() {
 //in die Spieler Boxen auf dem Spielfeld des jeweiligen Spielers
 //falls nichts eingegeben wurde wird ein Standard Name gewählt
 function setTextNode(textValue, spieler, playerbox) {
-    let textnode = document.createTextNode(
-        document.getElementById(textValue).value
-    );
+    let textnode = document.createTextNode(document.getElementById(textValue).value);
     if (textnode.nodeValue.trim().length === 0) {
         let ersatznode = document.createTextNode(spieler);
         document.getElementById(playerbox).appendChild(ersatznode);
@@ -173,7 +162,7 @@ function startfunction() {
     document.getElementById("Hauptspiel").classList.add("einfliegen");
 
     //mischt Karten
-    shuffle(document.getElementById("Paarslider").value);
+    // shuffle(document.getElementById("Paarslider").value);
 
     //setzt die TextNodes der Spieler Boxen auf ihre Namen
     setTextNode("text1", "Spieler 1", "namenbox1");
@@ -247,15 +236,15 @@ function kartenSetzen(kartenzahl) {
 }
 
 //Karten werden gemischt
-function shuffle(anzahl) {
-    for (let i = 0; i < Karten.length; i++) {
-        //jede Karte bekommt eine Zahl zwischen 1 und der Zahl der insgesamten Karten
-        //auf dem Spielfeld zugeordnet also höchstens zwischen 1 und 50
-        let randomPos = Math.floor(Math.random() * anzahl * 2);
-        //die Karten werden nach ihrer jeweiligen Nummer auf dem Spielfeld angeordnet der Größe nach
-        Karten[i].style.order = randomPos;
-    }
-}
+// function shuffle(anzahl) {
+//     for (let i = 0; i < Karten.length; i++) {
+//         //jede Karte bekommt eine Zahl zwischen 1 und der Zahl der insgesamten Karten
+//         //auf dem Spielfeld zugeordnet also höchstens zwischen 1 und 50
+//         let randomPos = Math.floor(Math.random() * anzahl * 2);
+//         //die Karten werden nach ihrer jeweiligen Nummer auf dem Spielfeld angeordnet der Größe nach
+//         Karten[i].style.order = randomPos;
+//     }
+// }
 
 //timer function
 function setTime() {
@@ -308,68 +297,28 @@ function KartenUmdrehen() {
 
 //prüft ob Karten gleich sind und zählt Zähler für Versuche und Paare hoch
 function check_if_pairs() {
+    //zum zählen der Versuche aller Spieler während des Spiels
+    document.getElementById("insgesamt_versuche_spiel").innerHTML = "Versuche: " + insgesamt_versuche_im_spiel;
+    insgesamt_versuche_im_spiel++;
+
+    let versucheboxen_array = ["versuchebox1", "versuchebox2", "versuchebox3", "versuchebox4"];
+    let paareboxen_array = ["paarebox1", "paarebox2", "paarebox3", "paarebox4"];
     //selbstgesetzte value der Karten div's, die bei der function kartensetzen verteilt wurden werden verglichen
-    if (
-        ersteKarte.getAttribute("value") === zweiteKarte.getAttribute("value")
-    ) {
+    if (ersteKarte.getAttribute("value") === zweiteKarte.getAttribute("value")) {
         //entfernt eventListener der Karten, damit sie nicht wieder angeklickt werden können
         karten_passen();
 
         //zählt Zähler für Versuche und Paare der jeweiligen Spieler Box hoch, wenn diese an der Reihe sind, also
         //die Klasse "hervorheben" enthalten, da ein Versuch gebraucht wurde und ein Paar gefunden wurde
-        if (
-            document
-                .getElementById("playerbox1")
-                .classList.contains("hervorheben")
-        ) {
-            document.getElementById("versuchebox1").innerHTML =
-                "Versuche: " + versuchecounter1;
-            versuchecounter1++;
-            document.getElementById("paarebox1").innerHTML =
-                "Paare: " + paarecounter1;
-            paarecounter1++;
-        }
-        if (
-            document
-                .getElementById("playerbox2")
-                .classList.contains("hervorheben")
-        ) {
-            document.getElementById("versuchebox2").innerHTML =
-                "Versuche: " + versuchecounter2;
-            versuchecounter2++;
-            document.getElementById("paarebox2").innerHTML =
-                "Paare: " + paarecounter2;
-            paarecounter2++;
-        }
-        if (
-            document
-                .getElementById("playerbox3")
-                .classList.contains("hervorheben")
-        ) {
-            document.getElementById("versuchebox3").innerHTML =
-                "Versuche: " + versuchecounter3;
-            versuchecounter3++;
-            document.getElementById("paarebox3").innerHTML =
-                "Paare: " + paarecounter3;
-            paarecounter3++;
-        }
-        if (
-            document
-                .getElementById("playerbox4")
-                .classList.contains("hervorheben")
-        ) {
-            document.getElementById("versuchebox4").innerHTML =
-                "Versuche: " + versuchecounter4;
-            versuchecounter4++;
-            document.getElementById("paarebox4").innerHTML =
-                "Paare: " + paarecounter4;
-            paarecounter4++;
-        }
 
-        //zum zählen der Versuche aller Spieler während des Spiels
-        document.getElementById("insgesamt_versuche_spiel").innerHTML =
-            "Versuche: " + insgesamt_versuche_im_spiel;
-        insgesamt_versuche_im_spiel++;
+        for (let i = 0; i < players.length; i++) {
+            if (players[i].classList.contains("hervorheben")) {
+                document.getElementById(versucheboxen_array[i]).innerHTML = "Versuche: " + parseInt(versuchearray[i] + 1);
+                versuchearray[i] += 1;
+                document.getElementById(paareboxen_array[i]).innerHTML = "Paare: " + parseInt(sortingarray[i] + 1);
+                sortingarray[i] += 1;
+            }
+        }
 
         //testet ob jede Karte umgedreht wurde, wenn ja erscheint der endscreen
         if (endtest()) {
@@ -384,38 +333,13 @@ function check_if_pairs() {
     wieder_umdrehen();
 
     //zählt hier nur den Versuche Zähler hoch, da kein Paar gefunden wurde sondern nur ein Versuch gebraucht wurde
-    if (
-        document.getElementById("playerbox1").classList.contains("hervorheben")
-    ) {
-        document.getElementById("versuchebox1").innerHTML =
-            "Versuche: " + versuchecounter1;
-        versuchecounter1++;
-    }
-    if (
-        document.getElementById("playerbox2").classList.contains("hervorheben")
-    ) {
-        document.getElementById("versuchebox2").innerHTML =
-            "Versuche: " + versuchecounter2;
-        versuchecounter2++;
-    }
-    if (
-        document.getElementById("playerbox3").classList.contains("hervorheben")
-    ) {
-        document.getElementById("versuchebox3").innerHTML =
-            "Versuche: " + versuchecounter3;
-        versuchecounter3++;
-    }
-    if (
-        document.getElementById("playerbox4").classList.contains("hervorheben")
-    ) {
-        document.getElementById("versuchebox4").innerHTML =
-            "Versuche: " + versuchecounter4;
-        versuchecounter4++;
-    }
 
-    document.getElementById("insgesamt_versuche_spiel").innerHTML =
-        "Versuche: " + insgesamt_versuche_im_spiel;
-    insgesamt_versuche_im_spiel++;
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].classList.contains("hervorheben")) {
+            document.getElementById(versucheboxen_array[i]).innerHTML = "Versuche: " + parseInt(versuchearray[i] + 1);
+            versuchearray[i] += 1;
+        }
+    }
 
     //der nächste Spieler in 1.2 Sekunden nachher dran
     setTimeout(function () {
@@ -495,10 +419,7 @@ function nextPlayer() {
         if (players[i].getAttribute("value") == vergleich) {
             players[i].classList.remove("hervorheben");
         }
-        if (
-            players[(i + 1) % totalAmount].getAttribute("value") ==
-            (vergleich + 1) % totalAmount
-        ) {
+        if (players[(i + 1) % totalAmount].getAttribute("value") == (vergleich + 1) % totalAmount) {
             players[(i + 1) % totalAmount].classList.add("hervorheben");
         }
     }
@@ -515,26 +436,21 @@ function spielresetfunction() {
     //wenn man zufällig daraufklickt das Spiel zurückgesetzt wird
     if (!confirm("Wollen Sie das Spiel wirklich zurücksetzen?")) return;
     //Zähler werden wieder auf Anfangswert gesetzt
-    versuchecounter1 = 1;
-    versuchecounter2 = 1;
-    versuchecounter3 = 1;
-    versuchecounter4 = 1;
+    for (let i = 0; i < versuchearray.length; i++) {
+        versuchearray[i] = 0;
+        sortingarray[i] = 0;
+    }
+
     insgesamt_versuche_im_spiel = 1;
-    paarecounter1 = 1;
-    paarecounter2 = 1;
-    paarecounter3 = 1;
-    paarecounter4 = 1;
+
     //Boxen werden auch wieder auf Anfangwert gesetzt
-    document.getElementById("versuchebox1").innerHTML = "Versuche: 0";
-    document.getElementById("versuchebox2").innerHTML = "Versuche: 0";
-    document.getElementById("versuchebox2").innerHTML = "Versuche: 0";
-    document.getElementById("versuchebox2").innerHTML = "Versuche: 0";
-    document.getElementById("insgesamt_versuche_spiel").innerHTML =
-        "Versuche: 0";
-    document.getElementById("paarebox1").innerHTML = "Paare: 0";
-    document.getElementById("paarebox2").innerHTML = "Paare: 0";
-    document.getElementById("paarebox3").innerHTML = "Paare: 0";
-    document.getElementById("paarebox4").innerHTML = "Paare: 0";
+    for (let i = 1; i <= versuchearray.length; i++) {
+        document.getElementById("versuchebox" + i).innerHTML = "Versuche: 0";
+        document.getElementById("paarebox" + i).innerHTML = "Versuche: 0";
+    }
+
+    document.getElementById("insgesamt_versuche_spiel").innerHTML = "Versuche: 0";
+
     //Animationen werden wieder rückgängig gemacht
     document.getElementById("Startbildschirm").classList.remove("schieben");
     document.getElementById("Hauptspiel").classList.remove("einfliegen");
@@ -557,18 +473,10 @@ function spielresetfunction() {
     }
     //jeder Knopf im Startbildschirm fürs Auswählen der Anzahl der Spieler bekommt wieder seinen eventListener, damit
     //totalAmount neu zugewiesen werden kann
-    document
-        .getElementById("select1")
-        .addEventListener("click", totalAmount_Zuweisung);
-    document
-        .getElementById("select2")
-        .addEventListener("click", totalAmount_Zuweisung);
-    document
-        .getElementById("select3")
-        .addEventListener("click", totalAmount_Zuweisung);
-    document
-        .getElementById("select4")
-        .addEventListener("click", totalAmount_Zuweisung);
+
+    for (let i = 0; i < selecter_array.length; i++) {
+        selecter_array[i].addEventListener("click", totalAmount_Zuweisung);
+    }
     //für den ersten Durchlauf von nextPlayer(), damit der Spieler 1 wieder hervorgehoben wird
     defaulthervorheben = true;
     vergleich = 0;
@@ -606,29 +514,6 @@ function endscreen() {
     document.getElementById("endscreen").classList.add("verdunkeln");
     //das div das die nach Punkten geordnete Tabelle der Spieler zeigt wird angezeigt
     document.getElementById("siegertabelle").classList.add("anzeigen");
-    //Array zum sortieren der Spieler nach Paaren
-    var sortingarray = [
-        paarecounter1 - 1,
-        paarecounter2 - 1,
-        paarecounter3 - 1,
-        paarecounter4 - 1,
-    ];
-
-    //zum Vergleichen mit dem sortierten Array
-    var vergleichsarray = [
-        paarecounter1 - 1,
-        paarecounter2 - 1,
-        paarecounter3 - 1,
-        paarecounter4 - 1,
-    ];
-
-    //zum Zählen der insgesamt gebrauchten Versuche aller Spieler
-    var versuchearray = [
-        versuchecounter1 - 1,
-        versuchecounter2 - 1,
-        versuchecounter3 - 1,
-        versuchecounter4 - 1,
-    ];
 
     //Variablen, die den Komponenten des sortierten Arrays zugeordnet werden
     var erster;
@@ -637,10 +522,17 @@ function endscreen() {
     var vierter;
 
     //um die if-Statements zu sperren, damit sie nicht zweimal durchgegangen werden
-    var lock1 = true;
-    var lock2 = true;
-    var lock3 = true;
-    var lock4 = true;
+    let lock1 = true,
+        lock2 = true,
+        lock3 = true,
+        lock4 = true;
+
+    //zum Vergleichen mit dem sortierten Array
+    var vergleichsarray = [];
+
+    for (let i = 0; i < sortingarray.length; i++) {
+        vergleichsarray[i] = sortingarray[i];
+    }
 
     //sortieren von dem sortingarray durch den bubblesort Algorithmus => muss nur viermal durchgegangen werden
     let bubblesort = 0;
@@ -658,6 +550,7 @@ function endscreen() {
 
     //sortiertes Array wird mit dem nicht sortierten verglichen, damit die Komponenten in den entsprechenden Variable
     //gespeichert werden können
+
     for (var i = 0; i < vergleichsarray.length; i++) {
         if (lock1) {
             if (sortingarray[0] == vergleichsarray[i]) {
@@ -693,41 +586,18 @@ function endscreen() {
     }
 
     //Array mit den div's der von siegertabelle
-    siegerarray = [
-        document.getElementById("sieger1"),
-        document.getElementById("sieger2"),
-        document.getElementById("sieger3"),
-        document.getElementById("sieger4"),
-    ];
+    siegerarray = [document.getElementById("sieger1"), document.getElementById("sieger2"), document.getElementById("sieger3"), document.getElementById("sieger4")];
 
     //Array mit den eingegebenen Namen
-    var textarray = [
-        document.getElementById("text1"),
-        document.getElementById("text2"),
-        document.getElementById("text3"),
-        document.getElementById("text4"),
-    ];
+    var textarray = [document.getElementById("text1"), document.getElementById("text2"), document.getElementById("text3"), document.getElementById("text4")];
+
+    var platzanzeiger_array = [erster, zweiter, dritter, vierter];
+    console.log(platzanzeiger_array);
 
     //platzanzeiger fügt in der siegertabelle jedem Spieler seinen richtigen Platz hinzu
     var platzanzeiger = "1.Platz: ";
     //die Klasse "erster" färbt die Schrift des div's golden
     siegerarray[0].classList.add("erster");
-    //testen ob ein Name eingegeben wurde, wenn nicht dann wird Standard Name verwendet
-    if (textarray[erster].value.trim().length === 0) {
-        siegerarray[0].innerHTML =
-            platzanzeiger +
-            "Spieler " +
-            (erster + 1) +
-            "<br>" +
-            "Paare: " +
-            vergleichsarray[erster];
-    } else
-        siegerarray[0].innerHTML =
-            platzanzeiger +
-            textarray[erster].value +
-            "<br>" +
-            "Paare: " +
-            vergleichsarray[erster];
 
     //testen ob der erste in sortingarray dieselbe Punktzahl hat wie der zweite
     //wenn nein => zweiter wird 2.Platz
@@ -737,25 +607,7 @@ function endscreen() {
         platzanzeiger = "2.Platz: ";
     }
     //wenn ja => beide sind 1.Platz
-    if (sortingarray[0] == sortingarray[1])
-        siegerarray[1].classList.add("erster");
-
-    //dieselbe Prozedur wie beim ersten Spieler
-    if (textarray[zweiter].value.trim().length === 0) {
-        siegerarray[1].innerHTML =
-            platzanzeiger +
-            "Spieler " +
-            (zweiter + 1) +
-            "<br>" +
-            "Paare: " +
-            vergleichsarray[zweiter];
-    } else
-        siegerarray[1].innerHTML =
-            platzanzeiger +
-            textarray[zweiter].value +
-            "<br>" +
-            "Paare: " +
-            vergleichsarray[zweiter];
+    if (sortingarray[0] == sortingarray[1]) siegerarray[1].classList.add("erster");
 
     //dasselbe jetzt für den dritten und vierten Spieler nur mit mehr
     //if-Abfragen, da der dritte genauso viele Punkte wie der erste und der
@@ -772,24 +624,8 @@ function endscreen() {
         }
     }
     if (sortingarray[1] == sortingarray[2])
-        if (siegerarray[1].classList.contains("erster"))
-            siegerarray[2].classList.add("erster");
+        if (siegerarray[1].classList.contains("erster")) siegerarray[2].classList.add("erster");
         else siegerarray[2].classList.add("zweiter");
-    if (textarray[dritter].value.trim().length === 0) {
-        siegerarray[2].innerHTML =
-            platzanzeiger +
-            "Spieler " +
-            (dritter + 1) +
-            "<br>" +
-            "Paare: " +
-            vergleichsarray[dritter];
-    } else
-        siegerarray[2].innerHTML =
-            platzanzeiger +
-            textarray[dritter].value +
-            "<br>" +
-            "Paare: " +
-            vergleichsarray[dritter];
 
     if (sortingarray[2] != sortingarray[3]) {
         //die Schrift des vierten Platzes bleibt schwarz
@@ -804,35 +640,27 @@ function endscreen() {
         }
     }
     if (sortingarray[2] == sortingarray[3])
-        if (siegerarray[2].classList.contains("erster"))
-            siegerarray[3].classList.add("erster");
-        else if (siegerarray[2].classList.contains("zweiter"))
-            siegerarray[3].classList.add("zweiter");
-        else if (siegerarray[2].classList.contains("dritter"))
-            siegerarray[3].classList.add("dritter");
+        if (siegerarray[2].classList.contains("erster")) siegerarray[3].classList.add("erster");
+        else if (siegerarray[2].classList.contains("zweiter")) siegerarray[3].classList.add("zweiter");
+        else if (siegerarray[2].classList.contains("dritter")) siegerarray[3].classList.add("dritter");
 
-    if (textarray[vierter].value.trim().length === 0) {
-        siegerarray[3].innerHTML =
-            platzanzeiger +
-            "Spieler " +
-            (vierter + 1) +
-            "<br>" +
-            "Paare: " +
-            vergleichsarray[vierter];
-    } else
-        siegerarray[3].innerHTML =
-            platzanzeiger +
-            textarray[vierter].value +
-            "<br>" +
-            "Paare: " +
-            vergleichsarray[vierter];
+    let counter = 0;
+    for (let i = 0; i < platzanzeiger_array.length; i++) {
+        platzbenenner(platzanzeiger_array[i], siegerarray, textarray, vergleichsarray, counter);
+        counter += 1;
+    }
 
     //ausrechnen der insgesamt gebrauchten Versuche von jedem Spieler
     let insgesamtversuche = 0;
-    for (let i = 0; i < versuchearray.length; i++)
-        insgesamtversuche += versuchearray[i];
-    document.getElementById("insgesamt_versuche_ende").innerHTML =
-        "Versuche insgesamt: " + insgesamtversuche;
+    for (let i = 0; i < versuchearray.length; i++) insgesamtversuche += versuchearray[i];
+    document.getElementById("insgesamt_versuche_ende").innerHTML = "Versuche insgesamt: " + insgesamtversuche;
+}
+
+function platzbenenner(platz, siegerarray, textarray, vergleichsarray, counter) {
+    //testen ob ein Name eingegeben wurde, wenn nicht dann wird Standard Name verwendet
+    if (textarray[platz].value.trim().length === 0) {
+        siegerarray[counter].innerHTML = "Spieler " + (platz + 1) + "<br>" + "Paare: " + vergleichsarray[platz];
+    } else siegerarray[platz].innerHTML = textarray[platz].value + "<br>" + "Paare: " + vergleichsarray[platz];
 }
 
 //setzt das Spiel im endscreen zurück
