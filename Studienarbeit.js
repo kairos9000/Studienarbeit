@@ -236,15 +236,15 @@ function kartenSetzen(kartenzahl) {
 }
 
 //Karten werden gemischt
-// function shuffle(anzahl) {
-//     for (let i = 0; i < Karten.length; i++) {
-//         //jede Karte bekommt eine Zahl zwischen 1 und der Zahl der insgesamten Karten
-//         //auf dem Spielfeld zugeordnet also höchstens zwischen 1 und 50
-//         let randomPos = Math.floor(Math.random() * anzahl * 2);
-//         //die Karten werden nach ihrer jeweiligen Nummer auf dem Spielfeld angeordnet der Größe nach
-//         Karten[i].style.order = randomPos;
-//     }
-// }
+function shuffle(anzahl) {
+    for (let i = 0; i < Karten.length; i++) {
+        //jede Karte bekommt eine Zahl zwischen 1 und der Zahl der insgesamten Karten
+        //auf dem Spielfeld zugeordnet also höchstens zwischen 1 und 50
+        let randomPos = Math.floor(Math.random() * anzahl * 2);
+        //die Karten werden nach ihrer jeweiligen Nummer auf dem Spielfeld angeordnet der Größe nach
+        Karten[i].style.order = randomPos;
+    }
+}
 
 //timer function
 function setTime() {
