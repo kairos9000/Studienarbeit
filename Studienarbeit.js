@@ -162,7 +162,7 @@ function startfunction() {
     document.getElementById("Hauptspiel").classList.add("einfliegen");
 
     //mischt Karten
-    // shuffle(document.getElementById("Paarslider").value);
+    shuffle(document.getElementById("Paarslider").value);
 
     //setzt die TextNodes der Spieler Boxen auf ihre Namen
     setTextNode("text1", "Spieler 1", "namenbox1");
